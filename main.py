@@ -1,0 +1,1515 @@
+from fastapi import FastAPI
+from fastapi import Request
+from fastapi.responses import RedirectResponse
+from model import predict_prepa
+from fastapi.responses import HTMLResponse
+from starlette.middleware.sessions import SessionMiddleware
+import random
+
+app=FastAPI()
+
+app.add_middleware(SessionMiddleware, secret_key="negro")
+@app.get("/",response_class=HTMLResponse)
+def form():
+    return """
+<html>
+<head>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0b1220;
+        color: white;
+    }
+
+    .wrapper {
+        max-width: 1100px;
+        margin: auto;
+        padding: 30px;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 34px;
+        background: linear-gradient(90deg, #60a5fa, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .header p {
+        color: #a1a1aa;
+        margin-top: 8px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .card {
+        background: #111a2e;
+        border: 1px solid #1f2a44;
+        border-radius: 14px;
+        padding: 20px;
+    }
+
+    .card h2 {
+        margin-top: 0;
+        font-size: 18px;
+        color: #93c5fd;
+        margin-bottom: 15px;
+    }
+
+    .option {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        background: #0f172a;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+    .option:hover {
+        background: #111c36;
+    }
+
+    input[type="radio"] {
+        transform: scale(1.2);
+        accent-color: #60a5fa;
+        margin-right: 10px;
+    }
+
+    label {
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        margin-top: 25px;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        transform: scale(1.02);
+    }
+
+    @media (max-width: 900px) {
+        .grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <div class="header">
+        <h1>PARCOURINF</h1>
+        <p>Simulateur intelligent de parcours post-bac</p>
+    </div>
+
+<form action="/save">
+
+<div class="grid">
+
+    <!-- ETUDES -->
+    <div class="card">
+        <h2>Orientation après le lycée</h2>
+
+        <div class="option">
+            <input type="radio" id="prepa" name="etude" value="prépa scientifique">
+            <label for="prepa">Prépa scientifique</label>
+        </div>
+
+        <div class="option">
+            <input type="radio" id="prepalitt" name="etude" value="prépa littéraire">
+            <label for="prepalitt">Prépa littéraire</label>
+        </div>
+
+        <div class="option">
+            <input type="radio" id="prepaecg" name="etude" value="prépa ECG">
+            <label for="prepaecg">Prépa ECG</label>
+        </div>
+
+        <div class="option">
+            <input type="radio" id="licencescience" name="etude" value="licence en sciences">
+            <label for="licencescience">Licence en sciences</label>
+        </div>
+
+        <div class="option">
+            <input type="radio" id="licencelitt" name="etude" value="licence en lettres et langues">
+            <label for="licencelitt">Licence en lettres et langues</label>
+        </div>
+
+        <div class="option">
+            <input type="radio" id="licencedroit" name="etude" value="licence en droit">
+            <label for="licencedroit">Licence en droit</label>
+        </div>
+
+        <div class="option">
+            <input type="radio" id="licenceeco" name="etude" value="licence en économie et gestion">
+            <label for="licenceeco">Licence en économie et gestion</label>
+        </div>
+
+        <div class="option">
+            <input type="radio" id="licencesante" name="etude" value="licence en santé">
+            <label for="licencesante">Licence en santé</label>
+        </div>
+
+        <div class="option">
+            <input type="radio" id="bts" name="etude" value="BTS">
+            <label for="bts">BTS</label>
+        </div>
+
+        <div class="option">
+            <input type="radio" id="but" name="etude" value="BUT">
+            <label for="but">BUT</label>
+        </div>
+
+    </div>
+
+    <!-- SPE 1 -->
+    <div class="card">
+        <h2>Spécialité principale</h2>
+
+        <div class="option"><input type="radio" id="amc" name="spe" value="AMC"><label for="amc">AMC</label></div>
+        <div class="option"><input type="radio" id="arts" name="spe" value="arts"><label for="arts">Arts</label></div>
+        <div class="option"><input type="radio" id="bio" name="spe" value="Biologie Ecologie"><label for="bio">Biologie Ecologie</label></div>
+        <div class="option"><input type="radio" id="eps" name="spe" value="EPS"><label for="eps">EPS</label></div>
+        <div class="option"><input type="radio" id="hggsp" name="spe" value="HGGSP"><label for="hggsp">HGGSP</label></div>
+        <div class="option"><input type="radio" id="hlp" name="spe" value="HLP"><label for="hlp">HLP</label></div>
+        <div class="option"><input type="radio" id="llca" name="spe" value="LLCA"><label for="llca">LLCA</label></div>
+        <div class="option"><input type="radio" id="llce" name="spe" value="LLCE"><label for="llce">LLCE</label></div>
+        <div class="option"><input type="radio" id="maths" name="spe" value="maths"><label for="maths">Maths</label></div>
+        <div class="option"><input type="radio" id="nsi" name="spe" value="NSI"><label for="nsi">NSI</label></div>
+        <div class="option"><input type="radio" id="physique" name="spe" value="physique"><label for="physique">Physique-Chimie</label></div>
+        <div class="option"><input type="radio" id="ses" name="spe" value="SES"><label for="ses">SES</label></div>
+        <div class="option"><input type="radio" id="si" name="spe" value="SI"><label for="si">SI</label></div>
+        <div class="option"><input type="radio" id="svt" name="spe" value="SVT"><label for="svt">SVT</label></div>
+
+    </div>
+
+    <!-- SPE 2 -->
+    <div class="card">
+        <h2>Deuxième spécialité</h2>
+
+        <div class="option"><input type="radio" id="amc2" name="spe2" value="AMC"><label for="amc2">AMC</label></div>
+        <div class="option"><input type="radio" id="arts2" name="spe2" value="arts"><label for="arts2">Arts</label></div>
+        <div class="option"><input type="radio" id="bio2" name="spe2" value="Biologie Ecologie"><label for="bio2">Biologie Ecologie</label></div>
+        <div class="option"><input type="radio" id="eps2" name="spe2" value="EPS"><label for="eps2">EPS</label></div>
+        <div class="option"><input type="radio" id="hggsp2" name="spe2" value="HGGSP"><label for="hggsp2">HGGSP</label></div>
+        <div class="option"><input type="radio" id="hlp2" name="spe2" value="HLP"><label for="hlp2">HLP</label></div>
+        <div class="option"><input type="radio" id="llca2" name="spe2" value="LLCA"><label for="llca2">LLCA</label></div>
+        <div class="option"><input type="radio" id="llce2" name="spe2" value="LLCE"><label for="llce2">LLCE</label></div>
+        <div class="option"><input type="radio" id="maths2" name="spe2" value="maths"><label for="maths2">Maths</label></div>
+        <div class="option"><input type="radio" id="nsi2" name="spe2" value="NSI"><label for="nsi2">NSI</label></div>
+        <div class="option"><input type="radio" id="physique2" name="spe2" value="physique"><label for="physique2">Physique-Chimie</label></div>
+        <div class="option"><input type="radio" id="ses2" name="spe2" value="SES"><label for="ses2">SES</label></div>
+        <div class="option"><input type="radio" id="si2" name="spe2" value="SI"><label for="si2">SI</label></div>
+        <div class="option"><input type="radio" id="svt2" name="spe2" value="SVT"><label for="svt2">SVT</label></div>
+
+    </div>
+
+</div>
+
+<button class="btn" type="submit">Valider les choix</button>
+
+</form>
+
+</div>
+
+</body>
+</html>
+
+"""
+@app.get("/save")
+def save(request: Request, etude:str, spe, spe2):
+    request.session["etude"]=etude
+    request.session["spe"]= spe
+    request.session["spe2"]=spe2
+    return RedirectResponse("/formulaire")
+
+@app.get("/formulaire",response_class=HTMLResponse)
+def prepaform(request:Request):
+    etude=request.session.get("etude")
+    spe=request.session.get("spe")
+    spe2=request.session.get("spe2")
+    if spe==spe2:
+        return RedirectResponse("/")
+    else:
+        return f"""
+   <html>
+<head>
+<style>
+    body {{
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0b1220;
+        color: white;
+    }}
+
+    .wrapper {{
+        max-width: 900px;
+        margin: auto;
+        padding: 30px;
+    }}
+
+    .header {{
+        text-align: center;
+        margin-bottom: 25px;
+    }}
+
+    .header h1 {{
+        margin: 0;
+        font-size: 34px;
+        background: linear-gradient(90deg, #60a5fa, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }}
+
+    .card {{
+        background: #111a2e;
+        border: 1px solid #1f2a44;
+        border-radius: 14px;
+        padding: 20px;
+    }}
+
+    h2 {{
+        font-size: 16px;
+        color: #93c5fd;
+        margin-bottom: 15px;
+    }}
+
+    p {{
+        margin: 10px 0 5px;
+        color: #cbd5e1;
+    }}
+
+    input[type="text"], input[type="number"] {{
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #2a3b5e;
+        background: #0f172a;
+        color: white;
+        outline: none;
+        margin-bottom: 10px;
+    }}
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {{
+        border-color: #60a5fa;
+    }}
+
+    .radio-group {{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 15px;
+    }}
+
+    .radio-option {{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        background: #0f172a;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: 0.2s;
+    }}
+
+    .radio-option:hover {{
+        border-color: #3b82f6;
+        background: #111c36;
+    }}
+
+    input[type="radio"] {{
+        accent-color: #60a5fa;
+        transform: scale(1.2);
+    }}
+
+    button {{
+        width: 100%;
+        padding: 14px;
+        margin-top: 15px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+    }}
+
+    button:hover {{
+        transform: scale(1.02);
+    }}
+
+    .highlight {{
+        color: #60a5fa;
+        font-weight: bold;
+    }}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<div class="header">
+    <h1>PARCOURINF</h1>
+</div>
+
+<form action="/predict">
+
+<div class="card">
+
+<h2>
+Je vais analyser ton profil pour les études inférieures, plus précisément pour la formation suivante:
+<span class="highlight">{etude}</span>
+</h2>
+
+<p>Ta moyenne en <b>{spe}</b> :</p>
+<p><input name="maths"></p>
+
+<p>Ta moyenne en <b>{spe2}</b> :</p>
+<p><input name="physique"></p>
+
+<p>Ton classement dans ta classe :</p>
+<p><input name="classement" type="text"></p>
+
+<p>L'avis de tes professeurs :</p>
+
+<div class="radio-group">
+
+    <label class="radio-option">
+        <input type="radio" id="mauvais" name="avis" value="0">
+        Mauvais
+    </label>
+
+    <label class="radio-option">
+        <input type="radio" id="moyen" name="avis" value="1">
+        Moyen
+    </label>
+
+    <label class="radio-option">
+        <input type="radio" id="bien" name="avis" value="2">
+        Bien
+    </label>
+
+    <label class="radio-option">
+        <input type="radio" id="excellent" name="avis" value="3">
+        Excellent
+    </label>
+
+</div>
+
+<p>La <b>{etude}</b> que tu vises est dans le top combien ? (1 à 100)</p>
+<p><input type="number" name="prepa" min="1" max="100"></p>
+
+<button type="submit">Analyser mon profil</button>
+
+</div>
+
+</form>
+
+</div>
+
+</body>
+</html>
+
+    """
+
+@app.get("/predict",response_class=HTMLResponse)
+def predict(maths:float,physique:float,classement:int,avis:float,prepa:int,request: Request):
+    etude=request.session.get("etude")
+    spe=request.session.get("spe")
+    spe2=request.session.get("spe2")
+    request.session["prepa"]=prepa
+    avis_str="non indiqué"
+    if avis==0:
+        avis_str="mauvais"
+    elif avis_str==1:
+        avis_str="moyen"
+    elif avis_str==2:
+        avis_str="bien"
+    else:
+        avis_str="excellent"
+    
+    admis=predict_prepa(maths,physique,classement,avis)
+    if etude=="prépa scientifique":
+        if spe=="maths" or spe2=="maths" or spe=="physique" or spe2=="physique":
+            admis=admis-(40/prepa)
+        else:
+            admis=admis-(50/prepa)
+    elif etude=="prépa littéraire":
+        if spe=="HLP" or spe2=="HLP" or spe=="HGGSP" or spe2=="HGGSP" or spe=="SES" or spe2=="SES":
+            admis=admis-(25/prepa)
+        else:
+            admis=admis-(35/prepa)
+    elif etude=="prépa ECG":
+        if spe=="maths" or spe2=="maths" or spe=="physique" or spe2=="physique" or spe=="SES" or spe2=="SES":
+            admis=admis-(35/prepa)
+        else:
+            admis=admis-(40/prepa)
+    elif etude=="BUT":
+        admis=admis-(30/prepa)
+    elif etude=="médecine":
+        if spe=="maths" or spe2=="maths" or spe=="physique" or spe2=="physique" or spe=="SVT" or spe2=="SVT":
+            admis=admis-(40/prepa)
+        else:
+            admis=admis-(50/prepa)
+
+
+
+
+    
+    if admis<=0:
+        decision="jamais"
+    elif 0<admis<10:
+        decision="rarement"
+    elif 10<admis<30:
+        decision="occasionnellement"
+    elif 30<admis<50:
+        decision="souvent"
+    elif 50<admis<75:
+        decision="très souvent"
+    else:
+        decision="presque tout le temps"
+    return f"""
+    <html>
+    <head>
+    <style>
+    body{{
+        background-color:#374649;
+    }}
+    h1{{
+        color:lightgreen;
+        text-align:center;
+    }}
+    p{{
+        color:lightblue;
+        margin-left:10px;   
+    }}
+
+    h2{{
+        color:lightblue;
+        text-align:center;
+    }}
+    button{{
+        transition:all 1s ease;
+    }}
+    button:hover{{
+        border:10px yellow;
+    }}
+    .resulttext{{
+        display:inline-flex;
+        gap:50px;
+        margin-left:125px;
+    }}
+    .style{{
+        inline-flex:1;
+        background-color:black;
+        width:200px;
+        height:100px;
+        cursor:pointer;
+        padding:5px;
+        transition:all 0.3s ease;
+    }}
+    .style:hover{{
+        background-color:lightblue;
+        border-color:black;
+        border-radius:50px;
+    }}
+    .container{{
+        display:flex;
+        gap:100px;
+    }}
+    .formation{{
+        flex:1;
+        background-color:black;
+        color:white;
+        border-color:lightblue;
+        height:70px;
+        padding:10px;
+        border-radius:10px;
+    }}
+    .text{{
+        color:black;
+        font-size:40px;
+        margin-left:10px;
+        margin-bottom:50px;
+    }}
+    .style2{{
+        background-color:black;
+        width:200px;
+        height:100px;
+        cursor:pointer;
+        padding:5px;
+        transition:all 0.3s ease;
+        margin-left:525px;
+        margin-top:50px;
+    }}
+    .style2:hover{{
+        background-color:lightblue;
+        border-color:black;
+        border-radius:50px;
+    }}        
+
+    #decale{{
+        margin-left:50px;
+    }}
+    #boutonun{{
+        margin-left:300px;
+    }}
+    #boutondeux{{
+        margin-right:400px;
+    }}
+    #boutontrois{{
+        margin-left:450px;
+        margin-right:500px;
+    }}
+    </style>
+    </head>
+    <body>
+    <form action="/">
+        <h1> Voici les résultats</h1>
+        <div class="resulttext">
+            <div class="style">
+            <p>Ta moyenne en {spe} est de :<span class="text" id="decale">{maths}</span></p>
+            </div>
+            <div class="style">
+            <p>Ta moyenne en {spe2} est de :<span class="text" id="decale">{physique}</span></p>
+            </div>
+            <div class="style">
+            <p>Ton classement dans ta classe est de :<span class="text" id="decale">{classement}</span></p>
+            </div>
+            <div class="style"> 
+            <p>L'avis des professeurs est :<span class="text">{avis_str}</span></p>
+            </div>
+        </div>
+        <div class="style2">
+            <p>Ta formation est classée top:<span class="text" id="decale">{prepa}</span></p>
+        </div>
+        <br><br>
+        <h2>Avec ces résultats, ton taux d'admissibilité est de : {admis} % 
+        <br><br>la formation envoie des propositions d'admission {decision}.</h2>
+        <br><br>
+        <div class="container">
+        <button id="boutonun" class="formation"type="submit">Retour vers choix formation</button>
+    </form>
+    <form action="/formulaire">
+        <button class="formation" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+        </div>
+    </form>
+    <form action="/pause">
+        <div class="container"> 
+        <button class="formation" name="admis" value="{admis}"id="boutontrois" type="submit">Faire la simulation</button>
+        </div>
+    </form>
+    </body>
+    </html>
+    """
+@app.get("/pause")
+def pause(admis:float,request:Request):
+    request.session["admis"]=int(admis)
+    request.session["n"]=1
+    request.session["k"]=0
+    request.session["l"]="not yet"
+    return RedirectResponse("/simulation")
+
+def save_k(request:Request):
+    request.session["k"]=int(0)
+    l="already"
+    request.session["l"]=l
+
+@app.get("/simulation", response_class=HTMLResponse)
+def simulation(request:Request):
+
+    n=request.session.get("n")
+    admis=request.session.get("admis")
+    etude=request.session.get("etude")
+
+
+    if n==1:
+        prepa=["prépa scientifique","prépa littéraire","prépa ECG"]
+        licence=["licence en sciences","licence en lettres et langues","licence en économie et gestion","licence en droit","licence en santé"]
+        but=["BUT"]
+        bts=["BTS"]
+        if etude in prepa:
+            population=random.randint(200,1200)
+            admis=100-admis
+            admisgenerale=random.randint(40,100)
+            chance=admisgenerale/100
+            place=round(population*(admis/100))
+            if place>population:
+                population=place
+            classes=random.randint(round(40*population/100),round(80*population/100))
+            classes_pourcent=round(classes/population*320)
+            dernier_candidat=random.randint(10,15)
+            url="https://www.letudiant.fr/classements/classement-des-prepas-scientifiques-mp-maths-physique/vous-visez-polytechnique-ens.html"
+        elif etude in licence:
+            population=random.randint(1000,3000)
+            admis=100-admis
+            admisgenerale=random.randint(40,100)
+            chance=admisgenerale/100
+            place=round(population*(admis/100))
+            if place>population:
+                population=place
+            classes=random.randint(round(95*population/100),population)
+            classes_pourcent=round(classes/population*320)
+            dernier_candidat=random.randint(10,50)
+            url="https://www.letudiant.fr/classements/classement-de-la-reussite-en-licence.html"
+        elif etude in but:
+            population=random.randint(400,900)
+            admis=100-admis
+            admisgenerale=random.randint(40,100)
+            chance=admisgenerale/100
+            place=round(population*(admis/100))
+            if place>population:
+                population=place
+            classes=random.randint(round(60*population/100),round(85*population/100))
+            classes_pourcent=round(classes/population*320)
+            dernier_candidat=random.randint(15,30)
+            url="https://etudiant.lefigaro.fr/article/vie-etudiante/parcoursup-2025-classement-des-but-les-plus-attractifs-20250128/"
+        elif etude in bts:
+            population=random.randint(150,600)
+            admis=100-admis
+            admisgenerale=random.randint(40,100)
+            chance=admisgenerale/100
+            place=round(population*(admis/100))
+            if place>population:
+                population=place
+            classes=random.randint(round(70*population/100),round(90*population/100))
+            classes_pourcent=round(classes/population*320)
+            dernier_candidat=random.randint(10,15)
+            url="https://etudiant.lefigaro.fr/etudes/bts/classement/"
+        
+        request.session["url"]=url
+        waitlist_rank=round(population*chance)
+        dernier_candidat=round((dernier_candidat/100)*waitlist_rank)
+        moyenne_liste=round((dernier_candidat+waitlist_rank)/2)
+        waitlist_chances=random.randint(moyenne_liste,waitlist_rank)
+        jour=(population-dernier_candidat)/(waitlist_chances-dernier_candidat)
+        jour=round(jour*40)
+        evolution=round((classes-dernier_candidat)/jour)
+    else:
+        evolution=request.session.get("evolution")
+        dernier_candidat=request.session.get("dernier_candidat")
+        admis=request.session.get("admis")
+        admisgenerale=request.session.get("admis_generale")
+        chance=request.session.get("chance")
+        place=request.session.get("place")
+        waitlist_rank=request.session.get("waitlist_rank")
+        moyenne_liste=request.session.get("moyenne_liste")
+        waitlist_chances=request.session.get("waitlist_chances")
+        jour=request.session.get("jour")
+        population=request.session.get("population")
+        classes=request.session.get("classes")
+        classes_pourcent=request.session.get("classes_pourcent")
+        
+
+    dynamique=random.randint(evolution-round(evolution/2),evolution+round(evolution/2))
+    if 40>=n>1:
+        dernier_candidat+=dynamique
+    else:
+        pass
+
+    if 1<=n<40:
+        finish_mess="<u>Phase principale active</u>, passe au jour suivant et vois la progression des places !"
+    else:
+        finish_mess="<u>Phase principale terminée</u>, va voir la décision sur ton voeu !"
+
+    request.session["population"]=int(population)
+    request.session["classes"]=int(classes)
+    request.session["classes_pourcent"]=int(classes_pourcent)
+    request.session["dernier_candidat"]=int(dernier_candidat)
+    request.session["evolution"]=int(evolution)
+    request.session["admis_generale"]=int(admisgenerale)
+    request.session["chance"]=chance
+    request.session["place"]=int(place)
+    request.session["waitlist_rank"]=waitlist_rank
+    request.session["moyenne_liste"]=moyenne_liste
+    request.session["waitlist_chances"]=waitlist_chances
+    request.session["jour"]=jour
+    request.session["n"]=n+1
+
+
+        
+    dernier_candidatpx=320*dernier_candidat/population
+    place_px=320*place/population
+
+
+    if place<=dernier_candidat:
+        voeux="tu as une proposition d'admission !"
+        l=request.session.get("l")
+        if l=="already":
+            k=request.session.get("k")
+            x=n-k
+            request.session["k"]=int(k+1)
+            request.session["x"]=x
+        else:
+            save_k(request)
+            k=request.session.get("k")
+            x=n-k
+            request.session["k"]=int(k+1)
+            request.session["x"]=x
+        
+
+
+        
+        
+    elif dernier_candidat<place<classes:
+        voeux="Voeu en attente"
+        if n>=40:
+            voeux="Voeu refusé"
+        else:
+            pass
+    else:
+        voeux="Voeu refusé"
+
+
+
+
+    return f"""
+    <html>
+    <head>
+        <style>
+
+        body{{
+            background-color:rgb(15, 25, 60);
+        }}
+
+        h3{{
+            font-family: fantasy;
+            text-align: center;
+            font-size: 40px;
+            font-style: italic;
+            color: rgb(180, 190, 210);
+        }}
+
+        .classement{{
+    margin-left:600px;
+    display:flex;
+    gap:120px;
+    align-items:flex-start;
+}}
+
+.bloc{{
+    position:relative;
+}}
+
+.annee{{
+    width:max-content;
+    margin:auto;
+    margin-bottom:10px;
+    padding:3px 10px;
+    border-radius:12px;
+    background:#e7ebf8;
+    font-size:13px;
+}}
+
+#messageall{{
+    position:absolute;
+    left:-220px;
+    bottom:-20px;
+}}
+#messageall span{{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:4px;
+}}
+#all-text{{
+    color:#e8edff;
+    background:#3554a5;
+}}
+
+.barre{{
+    width:50px;
+    height:320px;
+    border:1px solid #cfd4e5;
+}}
+
+.barre-2023{{
+    background:#ececec;
+}}
+
+.barre-2024{{
+    position:relative;
+    background:white;
+}}
+
+.remplissage{{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:{dernier_candidatpx}px;
+    background:#3554a5;
+}}
+
+.mon-rang{{
+    position:absolute;
+    left:0;
+    right:0;
+    top:{place_px}px;
+    border-top:2px solid #e28d76;
+}}
+
+.classes{{
+    position:absolute;
+    left:0;
+    right:0;
+    top:{classes_pourcent}px;
+    border-top:2px solid red;
+}}
+
+.appel2023{{
+    position:absolute;
+    left:-75px;
+    top:75px;
+}}
+
+.appel2024{{
+    position:absolute;
+    left:-60px;
+    top:{dernier_candidatpx}px;
+}}
+
+#waitlist_message{{
+    position:absolute;
+    left:-335px;
+    top:{dernier_candidatpx}px;
+}}
+#waitlist_message span{{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:4px;
+}}
+
+#waitlist-text{{
+    color:#e8edff;
+    background:#3554a5;
+}}
+
+.classe2024{{
+    position:absolute;
+    left:-60px;
+    bottom:-20px;
+}}
+
+.rang{{
+    position:absolute;
+    left:55px;
+    top:{place_px}px;
+}}
+
+#messagerang{{
+    position: absolute;
+    left:120px;
+    top:{place_px}px;
+}}
+
+#messagerang span{{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:4px;
+}}
+
+#rang-text{{
+    background-color: #c96d56;
+    color: #ffe8e1;
+}}
+
+.refus{{
+    position:absolute;
+    left:-60px;
+    top:{classes_pourcent}px;
+}}
+
+#messagerefus{{
+    position:absolute;
+    left:-310px;
+    top:{classes_pourcent};
+}}
+#messagerefus span{{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:4px;
+}}
+#refus-text{{
+    color:red;
+    background:white;
+}}
+
+.appel2023 span,
+.appel2024 span,
+.classe2024 span,
+.rang span,
+.refus span{{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:4px;
+    font-weight:bold;
+}}
+
+.appel2023 span{{
+    background:#efefef;
+}}
+
+.appel2024 span,
+.classe2024 span{{
+    background:#e8edff;
+    color:#3554a5;
+}}
+
+.rang span{{
+    background:#ffe8e1;
+    color:#c96d56;
+}}
+
+.refus span{{
+    background:red;
+    color:white;
+}}
+
+#finishmess{{
+    position:absolute;
+    bottom:-150px;
+    left:-250px;
+    width:600px;
+}}
+#finishmess span{{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:4px;
+}}
+#finishtext{{
+    color:#e8edff;
+    background:rgb(15,25,60);
+    font-size:30px;
+    font-family:fantasy;
+    text-align:center;
+}}
+
+.style{{
+        inline-flex:1;
+        background-color:black;
+        width:200px;
+        height:100px;
+        cursor:pointer;
+        padding:5px;
+        transition:all 0.3s ease;
+}}
+.style:hover{{
+    background-color:lightblue;
+    border-color:black;
+    border-radius:50px;
+    }}
+
+
+        </style>
+    </head>
+    <body>
+    <h3>Jour {n}</h3>
+         <div class="classement">
+
+    <div class="bloc">
+        <div class="annee">2026</div>
+
+        <div id="messageall">
+        <span id="all-text">tous les candidats</span>
+        </div>
+        <div id="waitlist_message">
+            <span id="waitlist-text">dernier candidat appelé aujourd'hui</span>
+        </div>
+
+        <div class="appel2024">
+            <span>{dernier_candidat}</span>
+        </div>
+
+        <div class="barre barre-2024">
+            <div class="remplissage"></div>
+            <div class="mon-rang"></div>
+            <div class="classes"></div>
+        </div>
+        <div id="messagerefus">
+        <span id="refus-text">rang du premier candidat refusé</span>
+        </div>
+
+        <div class="refus">
+            <span>{classes}</span>
+        </div>
+
+        <div class="classe2024">
+            <span>{population}</span>
+        </div>
+        <div id="messagerang">
+        <span id="rang-text">TOI</span>
+        </div>
+
+        <div class="rang">
+            <span>{place}</span>
+        </div>
+<div id="finishmess">
+<span id="finishtext">{finish_mess}</span>
+</div>        
+</div>
+
+<form action="/simulation">
+    <button>Jour suivant</button>
+</form>
+<form action="/voeux">
+    <button type="submit" name="voeux" value="{voeux}">Voir la décision du voeu</button>
+</form>
+    </body>
+</html>
+"""
+
+
+@app.get("/voeux")
+def voeux_decision(voeux):
+    if voeux=="tu as une proposition d'admission !":
+        return RedirectResponse("/accepte")
+    elif voeux=="Voeu en attente":
+        return RedirectResponse("/attente")
+    else:
+        return RedirectResponse("/refus")
+    
+@app.get("/accepte",response_class=HTMLResponse)
+def voeux_accepte(request:Request):
+    x=request.session.get("x")
+    etude=request.session.get("etude")
+    prepa=request.session.get("prepa")
+    return f"""
+<html>
+    <head>
+        <style>
+            body{{
+                background-color: rgb(255, 166, 0);
+            }}
+            p{{
+                text-align: center;
+                margin-top: 100px;
+                margin-bottom: 100px;
+                font-size: 25px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }}
+            #text1{{
+                font-size: 70px;
+                margin-left: 160px;
+                font-family:Arial, Helvetica, sans-serif;
+                text-align: center;
+                color: rgb(15, 25, 60);
+            }}
+            #text2{{
+                font-size: 70px;
+                margin-left: 330px;
+                font-family:Arial, Helvetica, sans-serif;
+                text-align: center;
+                color: rgb(15, 25, 60);
+            }}
+            button{{
+        transition:all 1s ease;
+    }}
+    button:hover{{
+        border:10px yellow;
+    }}
+            #boutonun{{
+        margin-left:300px;
+        width: 200px;
+            }}
+    #boutondeux{{
+        margin-right:300px;
+        width: 270px;
+    }}
+    .container{{
+        display:flex;
+        gap: 100px;
+    }}
+    .formation1{{
+        flex:1;
+        background-color:green;
+        color:white;
+        border-color:black;
+        height:70px;
+        padding:10px;
+        border-radius:10px;
+    }}
+    .formation2{{
+        flex:1;
+        background-color:red;
+        color:white;
+        border-color:black;
+        height:70px;
+        padding:10px;
+        border-radius:10px;
+    }}
+    .retour{{
+        background-color:black;
+        color:white;
+        border-color:red;
+        height:40px;
+        padding:10px;
+        border-radius:10px;
+    }}
+        </style>
+    </head>
+    <body>
+    <form action="/simulation">
+        <button type="submit" class="retour">Retour à la simulation</button>
+        </form>
+        <span id="text1"><u>TU AS UNE PROPOSITION</u></span>
+        <span id="text2"><u>D'ADMISSION !</u></span>
+
+        <p>Tu as reçu une proposition d'admission au jour {x} de la phase principale d'une formation {etude} du top {prepa}.</p>
+    <form action="/choix/accepté">
+        <div class="container">
+        <button id="boutonun" class="formation1"type="submit">ACCEPTER</button>
+    </form>
+    <form action="/choix/refusé">
+        <button class="formation2" id="boutondeux" type="submit">REFUSER</button>
+        </div>
+    </form>
+    </body>
+</html>
+"""
+@app.get("/choix/accepté",response_class=HTMLResponse)
+def choix_accepté(request:Request):
+    etude=request.session.get("etude")
+    url=request.session.get("url")
+    prepa=request.session.get("prepa")
+    return f"""
+    <html>
+    <head>
+        <style>
+            body{{
+                background-color: green;
+            }}
+            p{{
+                text-align: center;
+                margin-top: 100px;
+                margin-bottom: 100px;
+                font-size: 25px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }}
+            #text1{{
+                font-size: 70px;
+                margin-left: 350px;
+                font-family:Arial, Helvetica, sans-serif;
+                text-align: center;
+                color: rgb(15, 25, 60);
+            }}
+            button{{
+        transition:all 1s ease;
+    }}
+    button:hover{{
+        border:10px yellow;
+    }}
+            #boutonun{{
+        margin-left:300px;
+        width: 200px;
+            }}
+    #boutondeux{{
+        margin-right:300px;
+        width: 270px;
+    }}
+    .container{{
+        display:flex;
+        gap: 100px;
+    }}
+    .formation1{{
+        flex:1;
+        background-color:black;
+        color:rgb(116, 251, 116);
+        border-color:rgb(255,255,192);
+        height:70px;
+        padding:10px;
+        border-radius:10px;
+    }}
+    .formation2{{
+        flex:1;
+        background-color:black;
+        color:rgb(116, 251, 116);
+        border-color:rgb(255,255,192);
+        height:70px;
+        padding:10px;
+        border-radius:10px;
+    }}
+        </style>
+    </head>
+    <body>
+        <span id="text1"><u>VOEU ACCEPTÉ !</u></span>
+
+        <p>Maintenant, va voir précisément dans quel établissement de {etude} tu pourrais être prit selon ce que t'as visé (top {prepa}), t'as juste à cliquer <a href="{url}">ICI</a> !</p>
+        <p>Tu peux aussi retourner là où tu veux à l'aide des boutons ci-dessous</p>
+    <form action="/">
+    <div class="container">
+        <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
+    </form>
+    <form action="/formulaire">
+        <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+        </div>
+    </form>
+    </body>
+</html>
+"""
+@app.get("/choix/refusé",response_class=HTMLResponse)
+def choix_refusé(request:Request):
+    etude=request.session.get("etude")
+    prepa=request.session.get("prepa")
+    return f"""
+    <html>
+    <head>
+        <style>
+            body{{
+                background-color: rgb(119, 80, 212);
+            }}
+            p{{
+                text-align: center;
+                margin-top: 100px;
+                margin-bottom: 100px;
+                font-size: 25px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }}
+            #text1{{
+                font-size: 70px;
+                margin-left: 350px;
+                font-family:Arial, Helvetica, sans-serif;
+                text-align: center;
+                color: rgb(15, 25, 60);
+            }}
+            button{{
+        transition:all 1s ease;
+    }}
+    button:hover{{
+        border:10px yellow;
+    }}
+            #boutonun{{
+        margin-left:300px;
+        width: 200px;
+            }}
+    #boutondeux{{
+        margin-right:300px;
+        width: 270px;
+    }}
+    .container{{
+        display:flex;
+        gap: 100px;
+    }}
+    .formation1{{
+        flex:1;
+        background-color:black;
+        color:rgb(119, 80, 212);
+        border-color:rgb(255,255,192);
+        height:70px;
+        padding:10px;
+        border-radius:10px;
+    }}
+    .formation2{{
+        flex:1;
+        background-color:black;
+        color:rgb(119, 80, 212);
+        border-color:rgb(255,255,192);
+        height:70px;
+        padding:10px;
+        border-radius:10px;
+    }}
+        </style>
+    </head>
+    <body>
+        <span id="text1"><u>VOEU REFUSÉ !</u></span>
+
+        <p>Tu penses pouvoir faire mieux que cette formation ({etude}) du top {prepa} ?</p>
+        <p>Tu peux recommencer et changer le top {etude} que tu vises ou totalement recommencer à l'aide des boutons ci-dessous.</p>
+    <form action="/">
+    <div class="container">
+        <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
+    </form>
+    <form action="/formulaire">
+        <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+        </div>
+    </form>
+    </body>
+</html>
+"""
+
+@app.get("/attente", response_class=HTMLResponse)
+def attente(request:Request):
+    n=request.session.get("n")
+    return f"""
+<html>
+    <head>
+        <style>
+            body{{
+                background-color: #3554a5;
+            }}
+            p{{
+                text-align: center;
+                margin-top: 100px;
+                margin-bottom: 100px;
+                font-size: 25px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }}
+            #text1{{
+                font-size: 70px;
+                margin-left: 350px;
+                font-family:Arial, Helvetica, sans-serif;
+                text-align: center;
+                color: rgb(15, 25, 60);
+            }}
+            #text2{{
+                font-size: 70px;
+                margin-left: 450px;
+                font-family:Arial, Helvetica, sans-serif;
+                text-align: center;
+                color: rgb(15, 25, 60);
+            }}
+            button{{
+        transition:all 1s ease;
+    }}
+    button:hover{{
+        border:10px yellow;
+    }}
+
+    .retour{{
+        background-color:black;
+        color:white;
+        border-color:red;
+        height:60px;
+        padding:10px;
+        border-radius:10px;
+        margin-left:450px;
+    }}
+    span{{
+        font-size:30px;
+    }}
+        </style>
+    </head>
+    <body>
+        <span id="text1"><u>TU ES EN LISTE</u></span>
+        <span id="text2"><u>D'ATTENTE</u></span>
+
+        <p><u>Tu es encore en phase principale</u> (jour {n}),
+         retourne à la simulation pour voir les résultats au 40ème jour (ou moins si t'es admis avant).</p>
+    <form action="/simulation">
+        <button type="submit" class="retour"><span>Retour à la simulation</span></button>
+    </form>
+    </body>
+</html>
+"""
+
+@app.get("/refus",response_class=HTMLResponse)
+def refus(request:Request):
+    place=request.session.get("place")
+    classes=request.session.get("classes")
+    population=request.session.get("population")
+    dernier_candidat=request.session.get("dernier_candidat")
+    etude=request.session.get("etude")
+    return f"""
+    <html>
+    <head>
+        <style>
+            body{{
+                background-color: red;
+            }}
+            p{{
+                text-align: center;
+                margin-top: 100px;
+                margin-bottom: 100px;
+                font-size: 25px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }}
+            #text1{{
+                font-size: 70px;
+                margin-left: 350px;
+                font-family:Arial, Helvetica, sans-serif;
+                text-align: center;
+                color: rgb(15, 25, 60);
+            }}
+            button{{
+        transition:all 1s ease;
+    }}
+    button:hover{{
+        border:10px yellow;
+    }}
+            #boutonun{{
+        margin-left:300px;
+        width: 200px;
+            }}
+    #boutondeux{{
+        margin-right:300px;
+        width: 270px;
+    }}
+    .container{{
+        display:flex;
+        gap: 100px;
+    }}
+    .formation1{{
+        flex:1;
+        background-color:black;
+        color:rgb(255,255,192);
+        border-color:rgb(255,255,192);
+        height:70px;
+        padding:10px;
+        border-radius:10px;
+    }}
+    .formation2{{
+        flex:1;
+        background-color:black;
+        color:rgb(255,255,192);
+        border-color:rgb(255,255,192);
+        height:70px;
+        padding:10px;
+        border-radius:10px;
+    }}
+    .retour{{
+        background-color:black;
+        color:white;
+        border-color:red;
+        height:40px;
+        padding:10px;
+        border-radius:10px;
+    }}
+        </style>
+    </head>
+    <body>
+    <form action="/simulation">
+        <button type="submit" class="retour">Retour à la simulation</button>
+        </form>
+        <span id="text1"><u>TU ES REFUSÉ</u></span>
+
+        <p>Tu as été placé trop bas 
+        ({place}ème sur {population}, le dernier candidat classé étant {classes}ème, et le dernier appelé {dernier_candidat}ème),
+          tu n'as donc jamais reçu de proposition d'admission.</p>
+    <form action="/">
+    <div class="container">
+        <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
+    </form>
+    <form action="/formulaire">
+        <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+        </div>
+    </form>
+    </body>
+</html>
+"""

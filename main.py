@@ -280,7 +280,7 @@ Mieux comprendre les formations, leur sélectivité et les stratégies possibles
 </body>
 </html>
 """
-@app.get("/choix")
+@app.get("/choix", response_class=HTMLResponse)
 def form():
     return """
 <html>

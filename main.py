@@ -1083,11 +1083,11 @@ def simulation(request:Request):
         }}
 
         .classement{{
+            margin-left:600px;
             display:flex;
             gap:120px;
             align-items:flex-start;
             position: relative;
-            margin: 40px auto;
         }}
 
         .bloc{{
@@ -1255,9 +1255,10 @@ def simulation(request:Request):
         }}
 
         #finishmess{{
-            margin-top: 20px;
-            width:100%;
-            max-width: 600px;
+            position:absolute;
+            bottom:-150px;
+            left:-250px;
+            width:600px;
             text-align: center;
         }}
         #finishmess span{{
@@ -1276,7 +1277,7 @@ def simulation(request:Request):
         .btn-container {{
             display: flex;
             gap: 20px;
-            margin-top: 25px;
+            margin-top: 200px; /* Donne de l'espace par rapport au texte absolute */
         }}
 
         button {{
@@ -1293,42 +1294,47 @@ def simulation(request:Request):
             color: black;
         }}
 
+        /* Par défaut (Ordinateur) : on masque la version courte */
         .txt-mob {{ display: none; }}
         .txt-desk {{ display: inline; }}
 
         @media (max-width: 900px) {{
-            .txt-desk {{ display: none; }}
-            .txt-mob {{ display: inline; }}
+            /* Sur mobile : On masque la version longue et on affiche la courte */
+            .txt-desk {{ display: none !important; }}
+            .txt-mob {{ display: inline !important; }}
 
+            /* On ajuste le positionnement pour éviter les débordements d'écran */
+            .classement {{
+                margin-left: 10px !important;
+                gap: 20px !important;
+            }}
+            
+            /* On diminue la police des étiquettes */
             #messageall span, #waitlist_message span, #messagerefus span, #messagerang span,
             .appel2024 span, .classe2024 span, .rang span, .refus span {{
-                font-size: 11px;
-                padding: 3px 6px;
+                font-size: 11px !important;
+                padding: 3px 6px !important;
             }}
 
-            .classement {{
-                padding-left: 70px;
-                margin: 20px auto;
-            }}
-            #messageall {{
-                left: 65px; 
-            }}
-            #waitlist_message {{
-                left: 65px;
-            }}
-            #messagerefus {{
-                left: 65px;
-            }}
-            #messagerang {{
-                left: 105px;
+            /* On rapproche les boîtes de texte sur la droite de la jauge */
+            #messageall {{ left: 65px !important; bottom: -20px !important; }}
+            #waitlist_message {{ left: 65px !important; }}
+            #messagerefus {{ left: 65px !important; }}
+            #messagerang {{ left: 105px !important; }}
+            
+            #finishmess {{
+                left: -40px !important;
+                width: 320px !important;
+                bottom: -180px !important;
             }}
             #finishtext {{
-                font-size: 18px;
+                font-size: 16px !important;
             }}
             .btn-container {{
                 flex-direction: column;
                 width: 100%;
                 gap: 10px;
+                margin-top: 240px;
             }}
             .btn-container form, .btn-container button {{
                 width: 100%;
@@ -1387,12 +1393,11 @@ def simulation(request:Request):
         <div class="rang">
             <span>{place}</span>
         </div>
+        <div id="finishmess">
+            <span id="finishtext">{finish_mess}</span>
+        </div>        
     </div>
     </div>
-
-    <div id="finishmess">
-        <span id="finishtext">{finish_mess}</span>
-    </div>        
 
     <div class="btn-container">
     <form action="/simulation">

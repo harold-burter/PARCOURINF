@@ -5,15 +5,272 @@ from model import predict_prepa
 from fastapi.responses import HTMLResponse
 from starlette.middleware.sessions import SessionMiddleware
 import random
+import os
 
 app=FastAPI()
 
-app.add_middleware(SessionMiddleware, secret_key="negro")
+app.add_middleware(SessionMiddleware, secret_key=os.environ["cle_secrete"])
 @app.get("/",response_class=HTMLResponse)
+def home():
+    return """
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PARCOURINF</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f4f7fb;
+    color:#222;
+}
+
+header{
+    background:#1e3a8a;
+    color:white;
+    padding:25px;
+    text-align:center;
+}
+
+header h1{
+    font-size:45px;
+    margin:0;
+}
+
+header p{
+    font-size:18px;
+}
+
+.hero{
+
+    text-align:center;
+    padding:60px 20px;
+
+}
+
+.hero h2{
+
+    font-size:35px;
+    color:#1e3a8a;
+
+}
+
+.hero span{
+
+    color:#2563eb;
+
+}
+
+.hero p{
+
+    font-size:20px;
+    max-width:700px;
+    margin:auto;
+    line-height:1.6;
+
+}
+
+button{
+
+    margin-top:30px;
+    padding:15px 35px;
+
+    border:none;
+    border-radius:30px;
+
+    background:#2563eb;
+    color:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+}
+
+button:hover{
+
+    transform:scale(1.05);
+    background:#1e40af;
+
+}
+
+.cards{
+
+    display:flex;
+    justify-content:center;
+    gap:25px;
+
+    padding:40px 20px;
+
+    flex-wrap:wrap;
+
+}
+
+.card{
+
+    background:white;
+
+    width:280px;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+
+}
+
+.card h3{
+
+    color:#1e3a8a;
+
+}
+
+
+@media(max-width:600px){
+
+    header h1{
+        font-size:35px;
+    }
+
+
+    .hero h2{
+
+        font-size:28px;
+
+    }
+
+
+    .hero p{
+
+        font-size:17px;
+
+    }
+
+
+    .card{
+
+        width:90%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>PARCOURINF</h1>
+
+<p>Simulateur d'accessibilité aux formations après le bac</p>
+
+</header>
+
+
+
+<section class="hero">
+
+
+<h2>
+Comprendre ses chances,
+<span>anticiper son parcours</span>
+</h2>
+
+
+<p>
+
+PARCOURINF est un simulateur permettant d'explorer
+l'évolution possible d'une candidature et de mieux
+visualiser les opportunités d'admission.
+
+</p>
+
+
+
+<form action="/choix">
+
+<button>
+Commencer la simulation 🚀
+</button>
+
+</form>
+
+
+</section>
+
+
+
+
+<section class="cards">
+
+
+<div class="card">
+
+<h3>📊 Simulation</h3>
+
+<p>
+Visualisez une évolution jour par jour de votre candidature.
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>🤖 Intelligence artificielle</h3>
+
+<p>
+Un modèle de Machine Learning analyse différentes situations.
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>🎓 Orientation</h3>
+
+<p>
+Un outil pour mieux comprendre les choix possibles après le bac.
+</p>
+
+</div>
+
+
+</section>
+
+
+</body>
+
+</html>
+
+"""
+app.get("/choix")
 def form():
     return """
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     body {
         margin: 0;
@@ -245,19 +502,20 @@ def save(request: Request, etude:str, spe, spe2):
     request.session["etude"]=etude
     request.session["spe"]= spe
     request.session["spe2"]=spe2
-    return RedirectResponse("/formulaire")
+    if spe==spe2:
+        return ("/choix")
+    else:
+        return RedirectResponse("/formulaire")
 
 @app.get("/formulaire",response_class=HTMLResponse)
 def prepaform(request:Request):
     etude=request.session.get("etude")
     spe=request.session.get("spe")
     spe2=request.session.get("spe2")
-    if spe==spe2:
-        return RedirectResponse("/")
-    else:
-        return f"""
+    return f"""
    <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     body {{
         margin: 0;
@@ -499,6 +757,7 @@ def predict(maths:float,physique:float,classement:int,avis:float,prepa:int,reque
     return f"""
     <html>
     <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
     body{{
         background-color:#374649;
@@ -589,10 +848,22 @@ def predict(maths:float,physique:float,classement:int,avis:float,prepa:int,reque
         margin-left:450px;
         margin-right:500px;
     }}
+    @media (max-width: 900px) {{
+    .resulttext {{
+        display: flex;
+        flex-direction: column; 
+        margin-left: 10px;   
+        gap: 15px;
+    }}
+    .style2 {{
+        margin-left: 10px;   
+        margin-top: 20px;
+    }}
+}}
     </style>
     </head>
     <body>
-    <form action="/">
+    <form action="/choix">
         <h1> Voici les résultats</h1>
         <div class="resulttext">
             <div class="style">
@@ -794,6 +1065,7 @@ def simulation(request:Request):
     return f"""
     <html>
     <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
 
         body{{
@@ -1027,6 +1299,24 @@ def simulation(request:Request):
     border-radius:50px;
     }}
 
+    @media (max-width: 900px) {{
+    .classement {{
+        margin-left: 20px; 
+    }}
+    #messageall {{
+        left: 70px; 
+    }}
+    #waitlist_message {{
+        left: 70px;
+    }}
+    #messagerefus {{
+        left: 70px;
+    }}
+    #finishmess {{
+        left: 0;
+        width: 100%;
+    }}
+}}
 
         </style>
     </head>
@@ -1104,6 +1394,7 @@ def voeux_accepte(request:Request):
     return f"""
 <html>
     <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             body{{
                 background-color: rgb(255, 166, 0);
@@ -1202,6 +1493,7 @@ def choix_accepté(request:Request):
     return f"""
     <html>
     <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             body{{
                 background-color: green;
@@ -1263,7 +1555,7 @@ def choix_accepté(request:Request):
 
         <p>Maintenant, va voir précisément dans quel établissement de {etude} tu pourrais être prit selon ce que t'as visé (top {prepa}), t'as juste à cliquer <a href="{url}">ICI</a> !</p>
         <p>Tu peux aussi retourner là où tu veux à l'aide des boutons ci-dessous</p>
-    <form action="/">
+    <form action="/choix">
     <div class="container">
         <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
     </form>
@@ -1281,6 +1573,7 @@ def choix_refusé(request:Request):
     return f"""
     <html>
     <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             body{{
                 background-color: rgb(119, 80, 212);
@@ -1342,7 +1635,7 @@ def choix_refusé(request:Request):
 
         <p>Tu penses pouvoir faire mieux que cette formation ({etude}) du top {prepa} ?</p>
         <p>Tu peux recommencer et changer le top {etude} que tu vises ou totalement recommencer à l'aide des boutons ci-dessous.</p>
-    <form action="/">
+    <form action="/choix">
     <div class="container">
         <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
     </form>
@@ -1360,6 +1653,7 @@ def attente(request:Request):
     return f"""
 <html>
     <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             body{{
                 background-color: #3554a5;
@@ -1429,6 +1723,7 @@ def refus(request:Request):
     return f"""
     <html>
     <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             body{{
                 background-color: red;
@@ -1502,7 +1797,7 @@ def refus(request:Request):
         <p>Tu as été placé trop bas 
         ({place}ème sur {population}, le dernier candidat classé étant {classes}ème, et le dernier appelé {dernier_candidat}ème),
           tu n'as donc jamais reçu de proposition d'admission.</p>
-    <form action="/">
+    <form action="/choix">
     <div class="container">
         <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
     </form>

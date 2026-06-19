@@ -1292,36 +1292,44 @@ def simulation(request:Request):
         }}
 
         @media (max-width: 900px) {{
+            /* On donne de l'espace à gauche sur mobile pour aligner la barre et ses badges numériques */
             .classement {{
                 margin: 20px auto;
-                padding-left: 80px; /* Laisse de la place à gauche pour la barre et ses chiffres */
+                padding-left: 90px;
+                gap: 20px;
             }}
-            /* On neutralise les positions absolues horizontales négatives qui faisaient sortir le texte de l'écran */
+            
+            /* On désactive le positionnement absolu horizontal négatif pour éviter que le texte sorte de l'écran du téléphone */
             #messageall, #waitlist_message, #messagerefus, #messagerang {{
                 position: static !important;
-                margin: 10px 0;
+                margin: 12px 0;
                 display: block;
                 width: max-content;
             }}
-            /* On regroupe les légendes textuelles proprement sous ou au-dessus de la barre */
+            
+            /* On réorganise le bloc principal pour empiler proprement les légendes textuelles */
             .bloc {{
                 display: flex;
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
             }}
+            
             .barre-2024 {{
                 margin: 20px 0;
             }}
+            
             #finishmess {{
                 width: 100%;
             }}
             #finishtext {{
-                font-size: 20px;
+                font-size: 19px;
             }}
+            
+            /* Les boutons d'action s'adaptent à la largeur de l'écran tactile */
             .btn-container {{
                 flex-direction: column;
                 width: 100%;
-                align-items: center;
+                gap: 12px;
             }}
             .btn-container form, .btn-container button {{
                 width: 100%;

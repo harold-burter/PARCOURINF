@@ -1499,7 +1499,7 @@ def voeux_accepte(request:Request):
     </body>
 </html>
 """
-@app.get("/choix/accepté",call_back=None,response_class=HTMLResponse)
+@app.get("/choix/accepté",response_class=HTMLResponse)
 def choix_accepté(request:Request):
     etude=request.session.get("etude")
     url=request.session.get("url")

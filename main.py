@@ -926,9 +926,11 @@ def save_k(request:Request):
 
 @app.get("/simulation", response_class=HTMLResponse)
 def simulation(request:Request):
+
     n=request.session.get("n")
     admis=request.session.get("admis")
     etude=request.session.get("etude")
+
 
     if n==1:
         prepa=["prépa scientifique","prépa littéraire","prépa ECG"]
@@ -1011,6 +1013,8 @@ def simulation(request:Request):
     dynamique=random.randint(evolution-round(evolution/2),evolution+round(evolution/2))
     if 40>=n>1:
         dernier_candidat+=dynamique
+    else:
+        pass
 
     if 1<=n<40:
         finish_mess="<u>Phase principale active</u>, passe au jour suivant et vois la progression des places !"
@@ -1031,8 +1035,11 @@ def simulation(request:Request):
     request.session["jour"]=jour
     request.session["n"]=n+1
 
+
+        
     dernier_candidatpx=320*dernier_candidat/population
     place_px=320*place/population
+
 
     if place<=dernier_candidat:
         voeux="tu as une proposition d'admission !"
@@ -1048,12 +1055,22 @@ def simulation(request:Request):
             x=n-k
             request.session["k"]=int(k+1)
             request.session["x"]=x
+        
+
+
+        
+        
     elif dernier_candidat<place<classes:
         voeux="Voeu en attente"
         if n>=40:
             voeux="Voeu refusé"
+        else:
+            pass
     else:
         voeux="Voeu refusé"
+
+
+
 
     return f"""
     <html>
@@ -1066,11 +1083,12 @@ def simulation(request:Request):
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             margin: 0;
             padding: 20px;
             font-family: Arial, sans-serif;
             min-height: 100vh;
+            box-sizing: border-box;
         }}
 
         h3{{
@@ -1079,15 +1097,16 @@ def simulation(request:Request):
             font-size: 40px;
             font-style: italic;
             color: rgb(180, 190, 210);
-            margin: 10px 0;
+            margin: 20px 0;
         }}
 
         .classement{{
-            margin-left:600px;
-            display:flex;
-            gap:120px;
-            align-items:flex-start;
+            margin-left: 600px;
+            display: flex;
+            gap: 120px;
+            align-items: flex-start;
             position: relative;
+            height: 380px;
         }}
 
         .bloc{{
@@ -1275,69 +1294,84 @@ def simulation(request:Request):
         }}
 
         .btn-container {{
+            margin-top: 180px;
             display: flex;
             gap: 20px;
-            margin-top: 200px; /* Donne de l'espace par rapport au texte absolute */
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+        }}
+
+        .btn-container form {{
+            flex: 1;
         }}
 
         button {{
-            padding: 10px 20px;
+            width: 100%;
+            padding: 12px 20px;
             background-color: black;
             color: white;
             border: 1px solid lightblue;
             border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: bold;
         }}
         button:hover {{
             background-color: lightblue;
             color: black;
         }}
 
-        /* Par défaut (Ordinateur) : on masque la version courte */
+        /* Gestion de l'affichage alterné des textes */
         .txt-mob {{ display: none; }}
         .txt-desk {{ display: inline; }}
 
         @media (max-width: 900px) {{
-            /* Sur mobile : On masque la version longue et on affiche la courte */
             .txt-desk {{ display: none !important; }}
             .txt-mob {{ display: inline !important; }}
 
-            /* On ajuste le positionnement pour éviter les débordements d'écran */
             .classement {{
-                margin-left: 10px !important;
-                gap: 20px !important;
+                margin-left: 0 !important;
+                justify-content: center;
+                width: 100%;
+                gap: 0px !important;
             }}
-            
-            /* On diminue la police des étiquettes */
+
+            /* Alignement propre à droite de la jauge sur Mobile */
+            #messageall {{ left: 65px !important; bottom: -20px !important; }}
+            #waitlist_message {{ left: 65px !important; top: {dernier_candidatpx}px !important; }}
+            #messagerefus {{ left: 65px !important; top: {classes_pourcent}px !important; }}
+            #messagerang {{ left: 115px !important; top: {place_px}px !important; }}
+
+            /* Ajustement des badges de chiffres */
+            .appel2024 {{ left: -50px !important; }}
+            .refus {{ left: -50px !important; }}
+            .classe2024 {{ left: -50px !important; }}
+            .rang {{ left: 55px !important; }}
+
             #messageall span, #waitlist_message span, #messagerefus span, #messagerang span,
             .appel2024 span, .classe2024 span, .rang span, .refus span {{
                 font-size: 11px !important;
                 padding: 3px 6px !important;
+                white-space: nowrap;
             }}
 
-            /* On rapproche les boîtes de texte sur la droite de la jauge */
-            #messageall {{ left: 65px !important; bottom: -20px !important; }}
-            #waitlist_message {{ left: 65px !important; }}
-            #messagerefus {{ left: 65px !important; }}
-            #messagerang {{ left: 105px !important; }}
-            
             #finishmess {{
-                left: -40px !important;
-                width: 320px !important;
-                bottom: -180px !important;
+                position: relative !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                margin-top: 40px;
             }}
+
             #finishtext {{
-                font-size: 16px !important;
+                font-size: 18px !important;
             }}
+
             .btn-container {{
+                margin-top: 30px !important;
                 flex-direction: column;
-                width: 100%;
                 gap: 10px;
-                margin-top: 240px;
-            }}
-            .btn-container form, .btn-container button {{
-                width: 100%;
             }}
         }}
 

@@ -867,12 +867,43 @@ def predict(maths:float,physique:float,classement:int,avis:float,prepa:int,reque
     .resulttext {{
         display: flex;
         flex-direction: column; 
-        margin-left: 10px;   
+        margin-left: 0 !important;   
         gap: 15px;
+        align-items: center;
+    }}
+    .style {{
+        width: 90% !important;
+        height: auto !important;
+        text-align: center;
+    }}
+    .text {{
+        font-size: 28px !important;
+        display: block !important;
+        margin: 5px auto !important;
+    }}
+    #decale {{
+        margin-left: 0 !important;
     }}
     .style2 {{
-        margin-left: 10px;   
-        margin-top: 20px;
+        margin-left: auto !important;   
+        margin-right: auto !important;   
+        margin-top: 20px !important;
+        width: 90% !important;
+        height: auto !important;
+        text-align: center;
+    }}
+    .container {{
+        flex-direction: column !important;
+        gap: 15px !important;
+        padding: 0 20px;
+    }}
+    #boutonun, #boutondeux, #boutontrois {{
+        margin: 0 !important;
+        width: 100% !important;
+    }}
+    h2 {{
+        font-size: 18px !important;
+        padding: 0 10px;
     }}
 }}
     </style>
@@ -1314,22 +1345,43 @@ def simulation(request:Request):
     border-radius:50px;
     }}
 
-    @media (max-width: 900px) {{
+@media (max-width: 900px) {{
     .classement {{
-        margin-left: 20px; 
+        margin-left: auto !important; 
+        margin-right: auto !important;
+        justify-content: center !important;
+        padding-top: 40px !important;
+        padding-bottom: 180px !important;
     }}
     #messageall {{
-        left: 70px; 
+        left: 65px !important; 
+        white-space: nowrap !important;
     }}
     #waitlist_message {{
-        left: 70px;
+        left: 65px !important;
+        white-space: nowrap !important;
     }}
     #messagerefus {{
-        left: 70px;
+        left: 65px !important;
+        white-space: nowrap !important;
+    }}
+    #messagerang {{
+        left: 110px !important;
     }}
     #finishmess {{
-        left: 0;
-        width: 100%;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 90vw !important;
+        bottom: -160px !important;
+    }}
+    #finishtext {{
+        font-size: 20px !important;
+    }}
+    form button {{
+        width: 90% !important;
+        margin: 10px auto !important;
+        display: block !important;
+        padding: 12px !important;
     }}
 }}
 
@@ -1379,6 +1431,7 @@ def simulation(request:Request):
 <div id="finishmess">
 <span id="finishtext">{finish_mess}</span>
 </div>        
+</div>
 </div>
 
 <form action="/simulation">
@@ -1479,14 +1532,39 @@ def voeux_accepte(request:Request):
         padding:10px;
         border-radius:10px;
     }}
+    @media (max-width: 900px) {{
+        #text1, #text2 {{
+            font-size: 32px !important;
+            margin-left: 0 !important;
+            display: block !important;
+            text-align: center !important;
+        }}
+        p {{
+            font-size: 18px !important;
+            margin-top: 30px !important;
+            margin-bottom: 30px !important;
+            padding: 0 15px;
+        }}
+        .container {{
+            flex-direction: column !important;
+            gap: 15px !important;
+            padding: 0 15px;
+        }}
+        #boutonun, #boutondeux {{
+            margin: 0 !important;
+            width: 100% !important;
+        }}
+    }}
         </style>
     </head>
     <body>
     <form action="/simulation">
         <button type="submit" class="retour">Retour à la simulation</button>
         </form>
-        <span id="text1"><u>TU AS UNE PROPOSITION</u></span>
-        <span id="text2"><u>D'ADMISSION !</u></span>
+        <div style="text-align:center;">
+            <span id="text1"><u>TU AS UNE PROPOSITION</u></span>
+            <span id="text2"><u>D'ADMISSION !</u></span>
+        </div>
 
         <p>Tu as reçu une proposition d'admission au jour {x} de la phase principale d'une formation {etude} du top {prepa}.</p>
     <form action="/choix/accepté">
@@ -1562,6 +1640,29 @@ def choix_accepté(request:Request):
         height:70px;
         padding:10px;
         border-radius:10px;
+    }}
+    @media (max-width: 900px) {{
+        #text1 {{
+            font-size: 34px !important;
+            margin-left: 0 !important;
+            display: block !important;
+            text-align: center !important;
+        }}
+        p {{
+            font-size: 18px !important;
+            margin-top: 30px !important;
+            margin-bottom: 30px !important;
+            padding: 0 15px;
+        }}
+        .container {{
+            flex-direction: column !important;
+            gap: 15px !important;
+            padding: 0 15px;
+        }}
+        #boutonun, #boutondeux {{
+            margin: 0 !important;
+            width: 100% !important;
+        }}
     }}
         </style>
     </head>
@@ -1643,6 +1744,29 @@ def choix_refusé(request:Request):
         padding:10px;
         border-radius:10px;
     }}
+    @media (max-width: 900px) {{
+        #text1 {{
+            font-size: 34px !important;
+            margin-left: 0 !important;
+            display: block !important;
+            text-align: center !important;
+        }}
+        p {{
+            font-size: 18px !important;
+            margin-top: 30px !important;
+            margin-bottom: 30px !important;
+            padding: 0 15px;
+        }}
+        .container {{
+            flex-direction: column !important;
+            gap: 15px !important;
+            padding: 0 15px;
+        }}
+        #boutonun, #boutondeux {{
+            margin: 0 !important;
+            width: 100% !important;
+        }}
+    }}
         </style>
     </head>
     <body>
@@ -1713,11 +1837,37 @@ def attente(request:Request):
     span{{
         font-size:30px;
     }}
+    @media (max-width: 900px) {{
+        #text1, #text2 {{
+            font-size: 34px !important;
+            margin-left: 0 !important;
+            display: block !important;
+            text-align: center !important;
+        }}
+        p {{
+            font-size: 18px !important;
+            margin-top: 30px !important;
+            margin-bottom: 30px !important;
+            padding: 0 15px;
+        }}
+        .retour {{
+            margin-left: auto !important;
+            margin-right: auto !important;
+            display: block !important;
+            width: 90% !important;
+            height: auto !important;
+        }}
+        .retour span {{
+            font-size: 20px !important;
+        }}
+    }}
         </style>
     </head>
     <body>
-        <span id="text1"><u>TU ES EN LISTE</u></span>
-        <span id="text2"><u>D'ATTENTE</u></span>
+        <div style="text-align:center;">
+            <span id="text1"><u>TU ES EN LISTE</u></span>
+            <span id="text2"><u>D'ATTENTE</u></span>
+        </div>
 
         <p><u>Tu es encore en phase principale</u> (jour {n}),
          retourne à la simulation pour voir les résultats au 40ème jour (ou moins si t'es admis avant).</p>
@@ -1800,6 +1950,32 @@ def refus(request:Request):
         height:40px;
         padding:10px;
         border-radius:10px;
+    }}
+    @media (max-width: 900px) {{
+        #text1 {{
+            font-size: 34px !important;
+            margin-left: 0 !important;
+            display: block !important;
+            text-align: center !important;
+        }}
+        p {{
+            font-size: 18px !important;
+            margin-top: 30px !important;
+            margin-bottom: 30px !important;
+            padding: 0 15px;
+        }}
+        .container {{
+            flex-direction: column !important;
+            gap: 15px !important;
+            padding: 0 15px;
+        }}
+        #boutonun, #boutondeux {{
+            margin: 0 !important;
+            width: 100% !important;
+        }}
+        .retour {{
+            margin-left: 15px !important;
+        }}
     }}
         </style>
     </head>

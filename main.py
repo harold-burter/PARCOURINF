@@ -1293,18 +1293,37 @@ def simulation(request:Request):
 
         @media (max-width: 900px) {{
             .classement {{
-                margin-left: 20px; 
+                margin: 20px auto;
+                padding-left: 80px; /* Laisse de la place à gauche pour la barre et ses chiffres */
             }}
-            #messageall {{
-                left: 70px; 
+            /* On neutralise les positions absolues horizontales négatives qui faisaient sortir le texte de l'écran */
+            #messageall, #waitlist_message, #messagerefus, #messagerang {{
+                position: static !important;
+                margin: 10px 0;
+                display: block;
+                width: max-content;
             }}
-            #waitlist_message {{
-                left: 70px;
+            /* On regroupe les légendes textuelles proprement sous ou au-dessus de la barre */
+            .bloc {{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }}
-            #messagerefus {{
-                left: 70px;
+            .barre-2024 {{
+                margin: 20px 0;
             }}
             #finishmess {{
+                width: 100%;
+            }}
+            #finishtext {{
+                font-size: 20px;
+            }}
+            .btn-container {{
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+            }}
+            .btn-container form, .btn-container button {{
                 width: 100%;
             }}
         }}
@@ -1392,90 +1411,120 @@ def voeux_accepte(request:Request):
         <style>
             body{{
                 background-color: rgb(255, 166, 0);
+                margin: 0;
+                padding: 15px;
+                font-family: Arial, sans-serif;
+            }}
+            .main-container {{
+                max-width: 800px;
+                margin: auto;
+                text-align: center;
             }}
             p{{
                 text-align: center;
-                margin-top: 100px;
-                margin-bottom: 100px;
+                margin-top: 40px;
+                margin-bottom: 40px;
                 font-size: 25px;
                 font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             }}
             #text1{{
                 font-size: 70px;
-                margin-left: 160px;
+                display: block;
                 font-family:Arial, Helvetica, sans-serif;
                 text-align: center;
                 color: rgb(15, 25, 60);
             }}
             #text2{{
                 font-size: 70px;
-                margin-left: 330px;
+                display: block;
                 font-family:Arial, Helvetica, sans-serif;
                 text-align: center;
                 color: rgb(15, 25, 60);
             }}
             button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
-    }}
-            #boutonun{{
-        margin-left:300px;
-        width: 200px;
+                transition:all 1s ease;
             }}
-    #boutondeux{{
-        margin-right:300px;
-        width: 270px;
-    }}
-    .container{{
-        display:flex;
-        gap: 100px;
-    }}
-    .formation1{{
-        flex:1;
-        background-color:green;
-        color:white;
-        border-color:black;
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .formation2{{
-        flex:1;
-        background-color:red;
-        color:white;
-        border-color:black;
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .retour{{
-        background-color:black;
-        color:white;
-        border-color:red;
-        height:40px;
-        padding:10px;
-        border-radius:10px;
-    }}
+            button:hover{{
+                border:10px yellow;
+            }}
+            #boutonun{{
+                width: 200px;
+            }}
+            #boutondeux{{
+                width: 270px;
+            }}
+            .container{{
+                display:flex;
+                justify-content: center;
+                gap: 50px;
+                margin-top: 20px;
+            }}
+            .formation1{{
+                background-color:green;
+                color:white;
+                border-color:black;
+                height:70px;
+                padding:10px;
+                border-radius:10px;
+                cursor: pointer;
+            }}
+            .formation2{{
+                background-color:red;
+                color:white;
+                border-color:black;
+                height:70px;
+                padding:10px;
+                border-radius:10px;
+                cursor: pointer;
+            }}
+            .retour{{
+                background-color:black;
+                color:white;
+                border-color:red;
+                height:40px;
+                padding:10px;
+                border-radius:10px;
+                cursor: pointer;
+            }}
+            
+            @media (max-width: 768px) {{
+                #text1, #text2 {{
+                    font-size: 34px;
+                }}
+                p {{
+                    font-size: 18px;
+                }}
+                .container {{
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 15px;
+                }}
+                #boutonun, #boutondeux {{
+                    width: 100% !important;
+                    max-width: 300px;
+                }}
+            }}
         </style>
     </head>
     <body>
-    <form action="/simulation">
-        <button type="submit" class="retour">Retour à la simulation</button>
+    <div class="main-container">
+        <form action="/simulation" style="text-align: left;">
+            <button type="submit" class="retour">Retour à la simulation</button>
         </form>
-        <span id="text1"><u>TU AS UNE PROPOSITION</u></span>
+        <span id="text1"><u>TU ES ACCEPTÉ</u></span>
         <span id="text2"><u>D'ADMISSION !</u></span>
 
         <p>Tu as reçu une proposition d'admission au jour {x} de la phase principale d'une formation {etude} du top {prepa}.</p>
-    <form action="/choix/accepté">
+        
         <div class="container">
-        <button id="boutonun" class="formation1"type="submit">ACCEPTER</button>
-    </form>
-    <form action="/choix/refusé">
-        <button class="formation2" id="boutondeux" type="submit">REFUSER</button>
+            <form action="/choix/accepté">
+                <button id="boutonun" class="formation1" type="submit">ACCEPTER</button>
+            </form>
+            <form action="/choix/refusé">
+                <button class="formation2" id="boutondeux" type="submit">REFUSER</button>
+            </form>
         </div>
-    </form>
+    </div>
     </body>
 </html>
 """
@@ -1492,72 +1541,91 @@ def choix_accepté(request:Request):
         <style>
             body{{
                 background-color: green;
+                margin: 0;
+                padding: 15px;
+                font-family: Arial, sans-serif;
+            }}
+            .main-container {{
+                max-width: 800px;
+                margin: auto;
+                text-align: center;
             }}
             p{{
                 text-align: center;
-                margin-top: 100px;
-                margin-bottom: 100px;
+                margin-top: 40px;
+                margin-bottom: 40px;
                 font-size: 25px;
                 font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             }}
             #text1{{
                 font-size: 70px;
-                margin-left: 350px;
+                display: block;
                 font-family:Arial, Helvetica, sans-serif;
                 text-align: center;
                 color: rgb(15, 25, 60);
             }}
             button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
-    }}
-            #boutonun{{
-        margin-left:300px;
-        width: 200px;
+                transition:all 1s ease;
             }}
-    #boutondeux{{
-        margin-right:300px;
-        width: 270px;
-    }}
-    .container{{
-        display:flex;
-        gap: 100px;
-    }}
-    .formation1{{
-        flex:1;
-        background-color:black;
-        color:rgb(116, 251, 116);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .formation2{{
-        flex:1;
-        background-color:black;
-        color:rgb(116, 251, 116);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
+            button:hover{{
+                border:10px yellow;
+            }}
+            #boutonun{{
+                width: 200px;
+            }}
+            #boutondeux{{
+                width: 270px;
+            }}
+            .container{{
+                display:flex;
+                justify-content: center;
+                gap: 50px;
+            }}
+            .formation1, .formation2{{
+                background-color:black;
+                color:rgb(116, 251, 116);
+                border-color:rgb(255,255,192);
+                height:70px;
+                padding:10px;
+                border-radius:10px;
+                cursor: pointer;
+            }}
+            
+            @media (max-width: 768px) {{
+                #text1 {{
+                    font-size: 34px;
+                }}
+                p {{
+                    font-size: 18px;
+                }}
+                .container {{
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 15px;
+                }}
+                #boutonun, #boutondeux {{
+                    width: 100% !important;
+                    max-width: 300px;
+                }}
+            }}
         </style>
     </head>
     <body>
+    <div class="main-container">
         <span id="text1"><u>VOEU ACCEPTÉ !</u></span>
 
-        <p>Maintenant, va voir précisément dans quel établissement de {etude} tu pourrais être prit selon ce que t'as visé (top {prepa}), t'as juste à cliquer <a href="{url}">ICI</a> !</p>
+        <p>Maintenant, va voir précisément dans quel établissement de {etude} tu pourrais être prit selon ce que t'as visé (top {prepa}), t'as juste à cliquer <a href="{url}" style="color: yellow;">ICI</a> !</p>
         <p>Tu peux aussi retourner là où tu veux à l'aide des boutons ci-dessous</p>
-    <form action="/choix">
-    <div class="container">
-        <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
-    </form>
-    <form action="/formulaire">
-        <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+        
+        <div class="container">
+            <form action="/choix">
+                <button id="boutonun" class="formation1" type="submit">Retour vers choix formation</button>
+            </form>
+            <form action="/formulaire">
+                <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+            </form>
         </div>
-    </form>
+    </div>
     </body>
 </html>
 """
@@ -1573,72 +1641,91 @@ def choix_refusé(request:Request):
         <style>
             body{{
                 background-color: rgb(119, 80, 212);
+                margin: 0;
+                padding: 15px;
+                font-family: Arial, sans-serif;
+            }}
+            .main-container {{
+                max-width: 800px;
+                margin: auto;
+                text-align: center;
             }}
             p{{
                 text-align: center;
-                margin-top: 100px;
-                margin-bottom: 100px;
+                margin-top: 40px;
+                margin-bottom: 40px;
                 font-size: 25px;
                 font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             }}
             #text1{{
                 font-size: 70px;
-                margin-left: 350px;
+                display: block;
                 font-family:Arial, Helvetica, sans-serif;
                 text-align: center;
                 color: rgb(15, 25, 60);
             }}
             button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
-    }}
-            #boutonun{{
-        margin-left:300px;
-        width: 200px;
+                transition:all 1s ease;
             }}
-    #boutondeux{{
-        margin-right:300px;
-        width: 270px;
-    }}
-    .container{{
-        display:flex;
-        gap: 100px;
-    }}
-    .formation1{{
-        flex:1;
-        background-color:black;
-        color:rgb(119, 80, 212);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .formation2{{
-        flex:1;
-        background-color:black;
-        color:rgb(119, 80, 212);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
+            button:hover{{
+                border:10px yellow;
+            }}
+            #boutonun{{
+                width: 200px;
+            }}
+            #boutondeux{{
+                width: 270px;
+            }}
+            .container{{
+                display:flex;
+                justify-content: center;
+                gap: 50px;
+            }}
+            .formation1, .formation2{{
+                background-color:black;
+                color:rgb(119, 80, 212);
+                border-color:rgb(255,255,192);
+                height:70px;
+                padding:10px;
+                border-radius:10px;
+                cursor: pointer;
+            }}
+            
+            @media (max-width: 768px) {{
+                #text1 {{
+                    font-size: 34px;
+                }}
+                p {{
+                    font-size: 18px;
+                }}
+                .container {{
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 15px;
+                }}
+                #boutonun, #boutondeux {{
+                    width: 100% !important;
+                    max-width: 300px;
+                }}
+            }}
         </style>
     </head>
     <body>
+    <div class="main-container">
         <span id="text1"><u>VOEU REFUSÉ !</u></span>
 
         <p>Tu penses pouvoir faire mieux que cette formation ({etude}) du top {prepa} ?</p>
         <p>Tu peux recommencer et changer le top {etude} que tu vises ou totalement recommencer à l'aide des boutons ci-dessous.</p>
-    <form action="/choix">
-    <div class="container">
-        <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
-    </form>
-    <form action="/formulaire">
-        <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+        
+        <div class="container">
+            <form action="/choix">
+                <button id="boutonun" class="formation1" type="submit">Retour vers choix formation</button>
+            </form>
+            <form action="/formulaire">
+                <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+            </form>
         </div>
-    </form>
+    </div>
     </body>
 </html>
 """
@@ -1653,58 +1740,87 @@ def attente(request:Request):
         <style>
             body{{
                 background-color: #3554a5;
+                margin: 0;
+                padding: 15px;
+                font-family: Arial, sans-serif;
+            }}
+            .main-container {{
+                max-width: 800px;
+                margin: auto;
+                text-align: center;
             }}
             p{{
                 text-align: center;
-                margin-top: 100px;
-                margin-bottom: 100px;
+                margin-top: 40px;
+                margin-bottom: 40px;
                 font-size: 25px;
                 font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             }}
             #text1{{
                 font-size: 70px;
-                margin-left: 350px;
+                display: block;
                 font-family:Arial, Helvetica, sans-serif;
                 text-align: center;
                 color: rgb(15, 25, 60);
             }}
             #text2{{
                 font-size: 70px;
-                margin-left: 450px;
+                display: block;
                 font-family:Arial, Helvetica, sans-serif;
                 text-align: center;
                 color: rgb(15, 25, 60);
             }}
             button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
-    }}
+                transition:all 1s ease;
+            }}
+            button:hover{{
+                border:10px yellow;
+            }}
 
-    .retour{{
-        background-color:black;
-        color:white;
-        border-color:red;
-        height:60px;
-        padding:10px;
-        border-radius:10px;
-        margin-left:450px;
-    }}
-    span{{
-        font-size:30px;
-    }}
+            .retour{{
+                background-color:black;
+                color:white;
+                border-color:red;
+                height:60px;
+                padding:10px;
+                border-radius:10px;
+                cursor: pointer;
+                width: auto;
+                max-width: 100%;
+            }}
+            span{{
+                font-size:30px;
+            }}
+            
+            @media (max-width: 768px) {{
+                #text1, #text2 {{
+                    font-size: 34px;
+                }}
+                p {{
+                    font-size: 18px;
+                }}
+                span {{
+                    font-size: 20px;
+                }}
+                .retour {{
+                    width: 100%;
+                    height: auto;
+                    padding: 15px;
+                }}
+            }}
         </style>
     </head>
     <body>
+    <div class="main-container">
         <span id="text1"><u>TU ES EN LISTE</u></span>
         <span id="text2"><u>D'ATTENTE</u></span>
 
         <p><u>Tu es encore en phase principale</u> (jour {n}),
          retourne à la simulation pour voir les résultats au 40ème jour (ou moins si t'es admis avant).</p>
-    <form action="/simulation">
-        <button type="submit" class="retour"><span>Retour à la simulation</span></button>
-    </form>
+        <form action="/simulation">
+            <button type="submit" class="retour"><span>Retour à la simulation</span></button>
+        </form>
+    </div>
     </body>
 </html>
 """
@@ -1723,84 +1839,104 @@ def refus(request:Request):
         <style>
             body{{
                 background-color: red;
+                margin: 0;
+                padding: 15px;
+                font-family: Arial, sans-serif;
+            }}
+            .main-container {{
+                max-width: 800px;
+                margin: auto;
+                text-align: center;
             }}
             p{{
                 text-align: center;
-                margin-top: 100px;
-                margin-bottom: 100px;
+                margin-top: 40px;
+                margin-bottom: 40px;
                 font-size: 25px;
                 font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             }}
             #text1{{
                 font-size: 70px;
-                margin-left: 350px;
+                display: block;
                 font-family:Arial, Helvetica, sans-serif;
                 text-align: center;
                 color: rgb(15, 25, 60);
             }}
             button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
-    }}
-            #boutonun{{
-        margin-left:300px;
-        width: 200px;
+                transition:all 1s ease;
             }}
-    #boutondeux{{
-        margin-right:300px;
-        width: 270px;
-    }}
-    .container{{
-        display:flex;
-        gap: 100px;
-    }}
-    .formation1{{
-        flex:1;
-        background-color:black;
-        color:rgb(255,255,192);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .formation2{{
-        flex:1;
-        background-color:black;
-        color:rgb(255,255,192);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .retour{{
-        background-color:black;
-        color:white;
-        border-color:red;
-        height:40px;
-        padding:10px;
-        border-radius:10px;
-    }}
+            button:hover{{
+                border:10px yellow;
+            }}
+            #boutonun{{
+                width: 200px;
+            }}
+            #boutondeux{{
+                width: 270px;
+            }}
+            .container{{
+                display:flex;
+                justify-content: center;
+                gap: 50px;
+            }}
+            .formation1, .formation2{{
+                background-color:black;
+                color:rgb(255,255,192);
+                border-color:rgb(255,255,192);
+                height:70px;
+                padding:10px;
+                border-radius:10px;
+                cursor: pointer;
+            }}
+            .retour{{
+                background-color:black;
+                color:white;
+                border-color:red;
+                height:40px;
+                padding:10px;
+                border-radius:10px;
+                cursor: pointer;
+            }}
+            
+            @media (max-width: 768px) {{
+                #text1 {{
+                    font-size: 34px;
+                }}
+                p {{
+                    font-size: 18px;
+                }}
+                .container {{
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 15px;
+                }}
+                #boutonun, #boutondeux {{
+                    width: 100% !important;
+                    max-width: 300px;
+                }}
+            }}
         </style>
     </head>
     <body>
-    <form action="/simulation">
-        <button type="submit" class="retour">Retour à la simulation</button>
+    <div class="main-container">
+        <form action="/simulation" style="text-align: left;">
+            <button type="submit" class="retour">Retour à la simulation</button>
         </form>
         <span id="text1"><u>TU ES REFUSÉ</u></span>
 
         <p>Tu as été placé trop bas 
         ({place}ème sur {population}, le dernier candidat classé étant {classes}ème, et le dernier appelé {dernier_candidat}ème),
           tu n'as donc jamais reçu de proposition d'admission.</p>
-    <form action="/choix">
-    <div class="container">
-        <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
-    </form>
-    <form action="/formulaire">
-        <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+          
+        <div class="container">
+            <form action="/choix">
+                <button id="boutonun" class="formation1" type="submit">Retour vers choix formation</button>
+            </form>
+            <form action="/formulaire">
+                <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+            </form>
         </div>
-    </form>
+    </div>
     </body>
 </html>
 """

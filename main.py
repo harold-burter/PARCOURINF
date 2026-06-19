@@ -1060,113 +1060,44 @@ def simulation(request:Request):
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body{{
-            background-color:rgb(15, 25, 60);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }}
+        body{{ background-color:rgb(15, 25, 60); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }}
+        h3{{ font-family: fantasy; text-align: center; font-size: 40px; font-style: italic; color: rgb(180, 190, 210); margin-bottom: 30px; }}
 
-        h3{{
-            font-family: fantasy;
-            text-align: center;
-            font-size: 40px;
-            font-style: italic;
-            color: rgb(180, 190, 210);
-            margin-bottom: 30px;
-        }}
-
-        .classement {{
-            position: relative;
-            margin: 0 auto;
-            width: 50px; 
-            height: 320px;
-        }}
-
-        .barre{{
-            width:50px;
-            height:320px;
-            border:1px solid #cfd4e5;
-            background:white;
-            position: relative;
-        }}
+        .classement {{ position: relative; margin: 0 auto; width: 50px; height: 320px; }}
+        .barre{{ width:50px; height:320px; border:1px solid #cfd4e5; background:white; position: relative; }}
 
         /* Positionnement */
         .remplissage{{ position:absolute; top:0; width:100%; height:{dernier_candidatpx}px; background:#3554a5; }}
         .mon-rang{{ position:absolute; top:{place_px}px; width:100%; border-top:2px solid #e28d76; }}
         .classes{{ position:absolute; top:{classes_pourcent}px; width:100%; border-top:2px solid red; }}
 
-        /* Gestion du texte responsive */
-        .label-left {{
-            position: absolute;
-            right: 70px;
-            white-space: nowrap;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 12px;
-        }}
+        /* Blocs chiffres (à gauche) */
+        .num-bloc {{ position: absolute; right: 75px; background: #e8edff; color: #3554a5; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; white-space: nowrap; }}
+        
+        /* Étiquettes texte (à gauche, au-dessus/sous les chiffres) */
+        .label-text {{ position: absolute; right: 75px; font-size: 10px; color: #a0aec0; white-space: nowrap; }}
 
-        /* Classes de visibilité */
+        /* Bloc TOI (à droite) */
+        .toi-container {{ position: absolute; left: 75px; top: {place_px}px; display: flex; flex-direction: column; }}
+        .toi-label {{ background: #c96d56; color: white; padding: 2px 6px; border-radius: 4px 4px 0 0; font-weight: bold; font-size: 10px; }}
+        .toi-valeur {{ background: #ffe8e1; color: #c96d56; padding: 2px 6px; border-radius: 0 0 4px 4px; font-weight: bold; font-size: 12px; }}
+
         .mobile-text {{ display: none; }}
         .desktop-text {{ display: inline; }}
+        @media (max-width: 900px) {{ .mobile-text {{ display: inline !important; }}; .desktop-text {{ display: none !important; }} }}
 
-        @media (max-width: 900px) {{
-            .mobile-text {{ display: inline !important; }}
-            .desktop-text {{ display: none !important; }}
-        }}
+        /* Positionnement vertical des éléments */
+        #bloc-appel {{ top: {dernier_candidatpx}px; }}
+        #bloc-refus {{ top: {classes_pourcent}px; }}
+        #bloc-total {{ bottom: -5px; }}
 
-        #waitlist_message {{ top: {dernier_candidatpx}px; background: #3554a5; color: #e8edff; }}
-        #messagerefus {{ top: {classes_pourcent}px; background: white; color: red; border: 1px solid red; }}
-        #messageall {{ bottom: -20px; background: #3554a5; color: #e8edff; }}
-
-        #messagerang {{
-            position: absolute;
-            left: 70px;
-            top: {place_px}px;
-            background-color: #c96d56;
-            color: #ffe8e1;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 12px;
-        }}
-
-        #finishmess {{
-            margin-top: 50px;
-            text-align: center;
-            color: #e8edff;
-            font-family: fantasy;
-            font-size: 20px;
-            max-width: 600px;
-        }}
-
-        .btn-container {{
-            margin-top: 30px;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }}
-
-        button {{
-            padding: 10px 20px;
-            background-color: black;
-            color: white;
-            border: 1px solid lightblue;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-        }}
-        button:hover {{ background-color: lightblue; color: black; }}
-
+        #finishmess {{ margin-top: 60px; text-align: center; color: #e8edff; font-family: fantasy; font-size: 20px; }}
+        .btn-container {{ margin-top: 30px; display: flex; gap: 15px; justify-content: center; }}
+        button {{ padding: 10px 20px; background-color: black; color: white; border: 1px solid lightblue; border-radius: 10px; cursor: pointer; }}
     </style>
     </head>
     <body>
         <h3>Jour {n}</h3>
-        
         <div class="classement">
             <div class="barre">
                 <div class="remplissage"></div>
@@ -1174,35 +1105,28 @@ def simulation(request:Request):
                 <div class="classes"></div>
             </div>
 
-            <div id="waitlist_message" class="label-left">
-                <span class="desktop-text">Dernier candidat appelé aujourd'hui</span>
+            <div id="bloc-appel" class="num-bloc">{dernier_candidat}</div>
+            <div class="label-text" style="top: {dernier_candidatpx + 18}px;">
+                <span class="desktop-text">Dernier candidat appelé</span>
                 <span class="mobile-text">Dernier appelé</span>
             </div>
-            
-            <div id="messagerefus" class="label-left">
-                <span class="desktop-text">Rang du premier candidat refusé</span>
-                <span class="mobile-text">1er refusé</span>
-            </div>
-            
-            <div id="messageall" class="label-left">
-                <span class="desktop-text">Nombre total de candidats</span>
-                <span class="mobile-text">Total</span>
-            </div>
 
-            <div id="messagerang">TOI (rang {place})</div>
+            <div id="bloc-refus" class="num-bloc">{classes}</div>
+            <div class="label-text" style="top: {classes_pourcent + 18}px; color: #ff8888;">1er refusé</div>
+
+            <div id="bloc-total" class="num-bloc">{population}</div>
+            <div class="label-text" style="bottom: -22px;">Total candidats</div>
+
+            <div class="toi-container">
+                <div class="toi-label">TOI</div>
+                <div class="toi-valeur">{place}</div>
+            </div>
         </div>
 
-        <div id="finishmess">
-            {finish_mess}
-        </div>        
-
+        <div id="finishmess">{finish_mess}</div>        
         <div class="btn-container">
-            <form action="/simulation">
-                <button type="submit">Jour suivant</button>
-            </form>
-            <form action="/voeux">
-                <button type="submit" name="voeux" value="{voeux}">Voir la décision du voeu</button>
-            </form>
+            <form action="/simulation"><button type="submit">Jour suivant</button></form>
+            <form action="/voeux"><button type="submit" name="voeux" value="{voeux}">Voir la décision</button></form>
         </div>
     </body>
 </html>

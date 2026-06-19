@@ -1063,6 +1063,14 @@ def simulation(request:Request):
 
         body{{
             background-color:rgb(15, 25, 60);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
         }}
 
         h3{{
@@ -1071,13 +1079,15 @@ def simulation(request:Request):
             font-size: 40px;
             font-style: italic;
             color: rgb(180, 190, 210);
+            margin: 10px 0;
         }}
 
         .classement{{
-            margin-left:600px;
             display:flex;
             gap:120px;
             align-items:flex-start;
+            position: relative;
+            margin: 40px auto;
         }}
 
         .bloc{{
@@ -1092,6 +1102,7 @@ def simulation(request:Request):
             border-radius:12px;
             background:#e7ebf8;
             font-size:13px;
+            color: black;
         }}
 
         #messageall{{
@@ -1244,10 +1255,10 @@ def simulation(request:Request):
         }}
 
         #finishmess{{
-            position:absolute;
-            bottom:-150px;
-            left:-250px;
-            width:600px;
+            margin-top: 20px;
+            width:100%;
+            max-width: 600px;
+            text-align: center;
         }}
         #finishmess span{{
             display:inline-block;
@@ -1261,6 +1272,138 @@ def simulation(request:Request):
             font-family:fantasy;
             text-align:center;
         }}
+
+        .btn-container {{
+            display: flex;
+            gap: 20px;
+            margin-top: 25px;
+        }}
+
+        button {{
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            border: 1px solid lightblue;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }}
+        button:hover {{
+            background-color: lightblue;
+            color: black;
+        }}
+
+        .txt-mob {{ display: none; }}
+        .txt-desk {{ display: inline; }}
+
+        @media (max-width: 900px) {{
+            .txt-desk {{ display: none; }}
+            .txt-mob {{ display: inline; }}
+
+            #messageall span, #waitlist_message span, #messagerefus span, #messagerang span,
+            .appel2024 span, .classe2024 span, .rang span, .refus span {{
+                font-size: 11px;
+                padding: 3px 6px;
+            }}
+
+            .classement {{
+                padding-left: 70px;
+                margin: 20px auto;
+            }}
+            #messageall {{
+                left: 65px; 
+            }}
+            #waitlist_message {{
+                left: 65px;
+            }}
+            #messagerefus {{
+                left: 65px;
+            }}
+            #messagerang {{
+                left: 105px;
+            }}
+            #finishtext {{
+                font-size: 18px;
+            }}
+            .btn-container {{
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }}
+            .btn-container form, .btn-container button {{
+                width: 100%;
+            }}
+        }}
+
+        </style>
+    </head>
+    <body>
+    <h3>Jour {n}</h3>
+    <div class="classement">
+
+    <div class="bloc">
+        <div class="annee">2026</div>
+
+        <div id="messageall">
+        <span id="all-text">
+            <span class="txt-desk">tous les candidats</span>
+            <span class="txt-mob">Total candidats</span>
+        </span>
+        </div>
+        <div id="waitlist_message">
+            <span id="waitlist-text">
+                <span class="txt-desk">dernier candidat appelé aujourd'hui</span>
+                <span class="txt-mob">Dernier appelé</span>
+            </span>
+        </div>
+
+        <div class="appel2024">
+            <span>{dernier_candidat}</span>
+        </div>
+
+        <div class="barre barre-2024">
+            <div class="remplissage"></div>
+            <div class="mon-rang"></div>
+            <div class="classes"></div>
+        </div>
+        <div id="messagerefus">
+        <span id="refus-text">
+            <span class="txt-desk">rang du premier candidat refusé</span>
+            <span class="txt-mob">1er refusé</span>
+        </span>
+        </div>
+
+        <div class="refus">
+            <span>{classes}</span>
+        </div>
+
+        <div class="classe2024">
+            <span>{population}</span>
+        </div>
+        <div id="messagerang">
+        <span id="rang-text">TOI</span>
+        </div>
+
+        <div class="rang">
+            <span>{place}</span>
+        </div>
+    </div>
+    </div>
+
+    <div id="finishmess">
+        <span id="finishtext">{finish_mess}</span>
+    </div>        
+
+    <div class="btn-container">
+    <form action="/simulation">
+        <button type="submit">Jour suivant</button>
+    </form>
+    <form action="/voeux">
+        <button type="submit" name="voeux" value="{voeux}">Voir la décision du voeu</button>
+    </form>
+    </div>
+    </body>
+</html>
 """
 
 @app.get("/voeux")

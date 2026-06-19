@@ -402,7 +402,6 @@ def form():
 
 <div class="grid">
 
-    <!-- ETUDES -->
     <div class="card">
         <h2>Orientation après le lycée</h2>
 
@@ -458,7 +457,6 @@ def form():
 
     </div>
 
-    <!-- SPE 1 -->
     <div class="card">
         <h2>Spécialité principale</h2>
 
@@ -479,7 +477,6 @@ def form():
 
     </div>
 
-    <!-- SPE 2 -->
     <div class="card">
         <h2>Deuxième spécialité</h2>
 
@@ -753,10 +750,6 @@ def predict(maths:float,physique:float,classement:int,avis:float,prepa:int,reque
         else:
             admis=admis-(50/prepa)
 
-
-
-
-    
     if admis<=0:
         decision="jamais"
     elif 0<admis<10:
@@ -776,136 +769,124 @@ def predict(maths:float,physique:float,classement:int,avis:float,prepa:int,reque
     <style>
     body{{
         background-color:#374649;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
     }}
     h1{{
         color:lightgreen;
         text-align:center;
+        margin-top: 20px;
     }}
     p{{
         color:lightblue;
-        margin-left:10px;   
+        margin: 5px 0;   
     }}
-
     h2{{
         color:lightblue;
         text-align:center;
-    }}
-    button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
+        padding: 0 20px;
     }}
     .resulttext{{
-        display:inline-flex;
-        gap:50px;
-        margin-left:125px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 0 20px;
     }}
     .style{{
-        inline-flex:1;
         background-color:black;
-        width:200px;
-        height:100px;
+        width:220px;
+        min-height:110px;
         cursor:pointer;
-        padding:5px;
+        padding:15px;
+        border-radius:10px;
         transition:all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }}
     .style:hover{{
         background-color:lightblue;
-        border-color:black;
-        border-radius:50px;
+        color: black !important;
+        border-radius:25px;
     }}
-    .container{{
-        display:flex;
-        gap:100px;
-    }}
-    .formation{{
-        flex:1;
-        background-color:black;
-        color:white;
-        border-color:lightblue;
-        height:70px;
-        padding:10px;
-        border-radius:10px;
+    .style:hover p, .style:hover .text {{
+        color: black;
     }}
     .text{{
-        color:black;
-        font-size:40px;
-        margin-left:10px;
-        margin-bottom:50px;
+        color:white;
+        font-size:28px;
+        font-weight: bold;
+        display: block;
+        margin-top: 5px;
     }}
     .style2{{
         background-color:black;
-        width:200px;
-        height:100px;
+        width:220px;
+        min-height:110px;
         cursor:pointer;
-        padding:5px;
+        padding:15px;
+        border-radius:10px;
         transition:all 0.3s ease;
-        margin-left:525px;
-        margin-top:50px;
+        margin: 20px auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }}
     .style2:hover{{
         background-color:lightblue;
-        border-color:black;
-        border-radius:50px;
-    }}        
-
-    #decale{{
-        margin-left:50px;
+        border-radius:25px;
     }}
-    #boutonun{{
-        margin-left:300px;
+    .style2:hover p, .style2:hover .text {{
+        color: black;
     }}
-    #boutondeux{{
-        margin-right:400px;
-    }}
-    #boutontrois{{
-        margin-left:450px;
-        margin-right:500px;
-    }}
-    @media (max-width: 900px) {{
-    .resulttext {{
-        display: flex;
-        flex-direction: column; 
-        margin-left: 0 !important;   
-        gap: 15px;
-        align-items: center;
-    }}
-    .style {{
-        width: 90% !important;
-        height: auto !important;
-        text-align: center;
-    }}
-    .text {{
-        font-size: 28px !important;
-        display: block !important;
-        margin: 5px auto !important;
-    }}
-    #decale {{
-        margin-left: 0 !important;
-    }}
-    .style2 {{
-        margin-left: auto !important;   
-        margin-right: auto !important;   
-        margin-top: 20px !important;
-        width: 90% !important;
-        height: auto !important;
-        text-align: center;
-    }}
-    .container {{
-        flex-direction: column !important;
-        gap: 15px !important;
+    .container{{
+        display:flex;
+        justify-content: center;
+        gap:30px;
+        max-width: 900px;
+        margin: 20px auto;
         padding: 0 20px;
+        flex-wrap: wrap;
     }}
-    #boutonun, #boutondeux, #boutontrois {{
-        margin: 0 !important;
-        width: 100% !important;
+    .formation{{
+        width: 250px;
+        background-color:black;
+        color:white;
+        border: 2px solid lightblue;
+        height:60px;
+        padding:10px;
+        border-radius:10px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: 0.2s;
     }}
-    h2 {{
-        font-size: 18px !important;
-        padding: 0 10px;
+    .formation:hover {{
+        background-color: lightblue;
+        color: black;
+        transform: scale(1.05);
     }}
-}}
+    @media (max-width: 600px) {{
+        .resulttext {{
+            flex-direction: column; 
+            align-items: center;
+        }}
+        .style, .style2 {{
+            width: 90%;
+        }}
+        .container {{
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }}
+        .formation {{
+            width: 90%;
+        }}
+    }}
     </style>
     </head>
     <body>
@@ -913,36 +894,39 @@ def predict(maths:float,physique:float,classement:int,avis:float,prepa:int,reque
         <h1> Voici les résultats</h1>
         <div class="resulttext">
             <div class="style">
-            <p>Ta moyenne en {spe} est de :<span class="text" id="decale">{maths}</span></p>
+                <p>Ta moyenne en {spe} est de :</p>
+                <span class="text">{maths}</span>
             </div>
             <div class="style">
-            <p>Ta moyenne en {spe2} est de :<span class="text" id="decale">{physique}</span></p>
+                <p>Ta moyenne en {spe2} est de :</p>
+                <span class="text">{physique}</span>
             </div>
             <div class="style">
-            <p>Ton classement dans ta classe est de :<span class="text" id="decale">{classement}</span></p>
+                <p>Ton classement dans ta classe est de :</p>
+                <span class="text">{classement}</span>
             </div>
             <div class="style"> 
-            <p>L'avis des professeurs est :<span class="text">{avis_str}</span></p>
+                <p>L'avis des professeurs est :</p>
+                <span class="text">{avis_str}</span>
             </div>
         </div>
         <div class="style2">
-            <p>Ta formation est classée top:<span class="text" id="decale">{prepa}</span></p>
+            <p>Ta formation est classée top :</p>
+            <span class="text">{prepa}</span>
         </div>
-        <br><br>
+        <br>
         <h2>Avec ces résultats, ton taux d'admissibilité est de : {admis} % 
         <br><br>la formation envoie des propositions d'admission {decision}.</h2>
-        <br><br>
+        <br>
         <div class="container">
-        <button id="boutonun" class="formation"type="submit">Retour vers choix formation</button>
+        <button class="formation" type="submit">Retour vers choix formation</button>
     </form>
     <form action="/formulaire">
-        <button class="formation" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
-        </div>
+        <button class="formation" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
     </form>
     <form action="/pause">
-        <div class="container"> 
-        <button class="formation" name="admis" value="{admis}"id="boutontrois" type="submit">Faire la simulation</button>
-        </div>
+        <button class="formation" name="admis" value="{admis}" type="submit">Faire la simulation</button>
+    </div>
     </form>
     </body>
     </html>
@@ -966,7 +950,6 @@ def simulation(request:Request):
     n=request.session.get("n")
     admis=request.session.get("admis")
     etude=request.session.get("etude")
-
 
     if n==1:
         prepa=["prépa scientifique","prépa littéraire","prépa ECG"]
@@ -1071,11 +1054,8 @@ def simulation(request:Request):
     request.session["jour"]=jour
     request.session["n"]=n+1
 
-
-        
     dernier_candidatpx=320*dernier_candidat/population
     place_px=320*place/population
-
 
     if place<=dernier_candidat:
         voeux="tu as une proposition d'admission !"
@@ -1092,10 +1072,6 @@ def simulation(request:Request):
             request.session["k"]=int(k+1)
             request.session["x"]=x
         
-
-
-        
-        
     elif dernier_candidat<place<classes:
         voeux="Voeu en attente"
         if n>=40:
@@ -1105,9 +1081,6 @@ def simulation(request:Request):
     else:
         voeux="Voeu refusé"
 
-
-
-
     return f"""
     <html>
     <head>
@@ -1116,6 +1089,10 @@ def simulation(request:Request):
 
         body{{
             background-color:rgb(15, 25, 60);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white;
         }}
 
         h3{{
@@ -1124,326 +1101,294 @@ def simulation(request:Request):
             font-size: 40px;
             font-style: italic;
             color: rgb(180, 190, 210);
+            margin-top: 20px;
+        }}
+
+        .main-container {{
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }}
 
         .classement{{
-    margin-left:600px;
-    display:flex;
-    gap:120px;
-    align-items:flex-start;
-}}
+            display:flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 40px auto;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }}
 
-.bloc{{
-    position:relative;
-}}
+        .bloc{{
+            position:relative;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 420px;
+        }}
 
-.annee{{
-    width:max-content;
-    margin:auto;
-    margin-bottom:10px;
-    padding:3px 10px;
-    border-radius:12px;
-    background:#e7ebf8;
-    font-size:13px;
-}}
+        .annee{{
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 3px 15px;
+            border-radius: 12px;
+            background:#e7ebf8;
+            font-size:14px;
+            color: black;
+            font-weight: bold;
+        }}
 
-#messageall{{
-    position:absolute;
-    left:-220px;
-    bottom:-20px;
-}}
-#messageall span{{
-    display:inline-block;
-    padding:4px 10px;
-    border-radius:4px;
-}}
-#all-text{{
-    color:#e8edff;
-    background:#3554a5;
-}}
+        .barre-container {{
+            position: relative;
+            height: 320px;
+            width: 60px;
+            margin-top: 20px;
+        }}
 
-.barre{{
-    width:50px;
-    height:320px;
-    border:1px solid #cfd4e5;
-}}
+        .barre{{
+            width: 100%;
+            height: 100%;
+            border: 2px solid #cfd4e5;
+            border-radius: 4px;
+        }}
 
-.barre-2023{{
-    background:#ececec;
-}}
+        .barre-2024{{
+            position:relative;
+            background: rgba(255,255,255,0.1);
+        }}
 
-.barre-2024{{
-    position:relative;
-    background:white;
-}}
+        .remplissage{{
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            height:{dernier_candidatpx}px;
+            background:#3554a5;
+            border-radius: 2px 2px 0 0;
+        }}
 
-.remplissage{{
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    height:{dernier_candidatpx}px;
-    background:#3554a5;
-}}
+        .mon-rang{{
+            position:absolute;
+            left: -10px;
+            right: -10px;
+            top:{place_px}px;
+            border-top:3px dashed #e28d76;
+        }}
 
-.mon-rang{{
-    position:absolute;
-    left:0;
-    right:0;
-    top:{place_px}px;
-    border-top:2px solid #e28d76;
-}}
+        .classes{{
+            position:absolute;
+            left: -10px;
+            right: -10px;
+            top:{classes_pourcent}px;
+            border-top:3px solid red;
+        }}
 
-.classes{{
-    position:absolute;
-    left:0;
-    right:0;
-    top:{classes_pourcent}px;
-    border-top:2px solid red;
-}}
+        /* CÔTÉ GAUCHE (Infos globales et dernier appelé) */
+        #messageall{{
+            position:absolute;
+            right: calc(50% + 45px);
+            top: -5px;
+            text-align: right;
+            white-space: nowrap;
+        }}
+        #waitlist_message{{
+            position:absolute;
+            right: calc(50% + 95px);
+            top: {dernier_candidatpx + 10}px;
+            text-align: right;
+        }}
+        .appel2024{{
+            position:absolute;
+            right: calc(50% + 42px);
+            top: {dernier_candidatpx + 10}px;
+        }}
 
-.appel2023{{
-    position:absolute;
-    left:-75px;
-    top:75px;
-}}
+        /* CÔTÉ DROIT (Toi et Refusé/Total) */
+        #messagerang{{
+            position: absolute;
+            left: calc(50% + 95px);
+            top: {place_px + 10}px;
+        }}
+        .rang{{
+            position:absolute;
+            left: calc(50% + 42px);
+            top: {place_px + 10}px;
+        }}
+        #messagerefus{{
+            position:absolute;
+            left: calc(50% + 95px);
+            top: {classes_pourcent + 10}px;
+        }}
+        .refus{{
+            position:absolute;
+            left: calc(50% + 42px);
+            top: {classes_pourcent + 10}px;
+        }}
+        .classe2024{{
+            position:absolute;
+            left: calc(50% + 42px);
+            bottom: 60px;
+        }}
 
-.appel2024{{
-    position:absolute;
-    left:-60px;
-    top:{dernier_candidatpx}px;
-}}
+        /* STYLES DES LABELS ET BOXES */
+        #messageall span, #waitlist_message span, #messagerang span, #messagerefus span,
+        .appel2024 span, .classe2024 span, .rang span, .refus span {{
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }}
 
-#waitlist_message{{
-    position:absolute;
-    left:-335px;
-    top:{dernier_candidatpx}px;
-}}
-#waitlist_message span{{
-    display:inline-block;
-    padding:4px 10px;
-    border-radius:4px;
-}}
+        #all-text{{ color:#e8edff; background:#3554a5; }}
+        #waitlist-text{{ color:#e8edff; background:#1e3a8a; max-width: 150px; text-align: right;}}
+        .appel2024 span {{ background:#e8edff; color:#3554a5; }}
+        #rang-text{{ background-color: #c96d56; color: #ffe8e1; }}
+        .rang span{{ background:#ffe8e1; color:#c96d56; }}
+        #refus-text{{ color:red; background:white; }}
+        .refus span{{ background:red; color:white; }}
+        .classe2024 span{{ background: #4b5563; color: white; }}
 
-#waitlist-text{{
-    color:#e8edff;
-    background:#3554a5;
-}}
+        #finishmess{{
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            text-align: center;
+        }}
+        #finishtext{{
+            color:#e8edff;
+            font-size:22px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }}
 
-.classe2024{{
-    position:absolute;
-    left:-60px;
-    bottom:-20px;
-}}
+        .btn-container {{
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+            width: 100%;
+            flex-wrap: wrap;
+        }}
 
-.rang{{
-    position:absolute;
-    left:55px;
-    top:{place_px}px;
-}}
+        button {{
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            min-width: 180px;
+        }}
 
-#messagerang{{
-    position: absolute;
-    left:120px;
-    top:{place_px}px;
-}}
+        button:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(96,165,250,0.3);
+        }}
 
-#messagerang span{{
-    display:inline-block;
-    padding:4px 10px;
-    border-radius:4px;
-}}
-
-#rang-text{{
-    background-color: #c96d56;
-    color: #ffe8e1;
-}}
-
-.refus{{
-    position:absolute;
-    left:-60px;
-    top:{classes_pourcent}px;
-}}
-
-#messagerefus{{
-    position:absolute;
-    left:-310px;
-    top:{classes_pourcent};
-}}
-#messagerefus span{{
-    display:inline-block;
-    padding:4px 10px;
-    border-radius:4px;
-}}
-#refus-text{{
-    color:red;
-    background:white;
-}}
-
-.appel2023 span,
-.appel2024 span,
-.classe2024 span,
-.rang span,
-.refus span{{
-    display:inline-block;
-    padding:4px 10px;
-    border-radius:4px;
-    font-weight:bold;
-}}
-
-.appel2023 span{{
-    background:#efefef;
-}}
-
-.appel2024 span,
-.classe2024 span{{
-    background:#e8edff;
-    color:#3554a5;
-}}
-
-.rang span{{
-    background:#ffe8e1;
-    color:#c96d56;
-}}
-
-.refus span{{
-    background:red;
-    color:white;
-}}
-
-#finishmess{{
-    position:absolute;
-    bottom:-150px;
-    left:-250px;
-    width:600px;
-}}
-#finishmess span{{
-    display:inline-block;
-    padding:4px 10px;
-    border-radius:4px;
-}}
-#finishtext{{
-    color:#e8edff;
-    background:rgb(15,25,60);
-    font-size:30px;
-    font-family:fantasy;
-    text-align:center;
-}}
-
-.style{{
-        inline-flex:1;
-        background-color:black;
-        width:200px;
-        height:100px;
-        cursor:pointer;
-        padding:5px;
-        transition:all 0.3s ease;
-}}
-.style:hover{{
-    background-color:lightblue;
-    border-color:black;
-    border-radius:50px;
-    }}
-
-@media (max-width: 900px) {{
-    .classement {{
-        margin-left: auto !important; 
-        margin-right: auto !important;
-        justify-content: center !important;
-        padding-top: 40px !important;
-        padding-bottom: 180px !important;
-    }}
-    #messageall {{
-        left: 65px !important; 
-        white-space: nowrap !important;
-    }}
-    #waitlist_message {{
-        left: 65px !important;
-        white-space: nowrap !important;
-    }}
-    #messagerefus {{
-        left: 65px !important;
-        white-space: nowrap !important;
-    }}
-    #messagerang {{
-        left: 110px !important;
-    }}
-    #finishmess {{
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: 90vw !important;
-        bottom: -160px !important;
-    }}
-    #finishtext {{
-        font-size: 20px !important;
-    }}
-    form button {{
-        width: 90% !important;
-        margin: 10px auto !important;
-        display: block !important;
-        padding: 12px !important;
-    }}
-}}
+        @media (max-width: 768px) {{
+            #messageall, #waitlist_message, #messagerang, #messagerefus {{
+                display: none;
+            }}
+            .classement {{
+                max-width: 320px;
+            }}
+            .appel2024 {{ right: calc(50% + 35px); }}
+            .rang {{ left: calc(50% + 35px); }}
+            .refus {{ left: calc(50% + 35px); }}
+            .classe2024 {{ left: calc(50% + 35px); }}
+            
+            .appel2024 span::before {{ content: "Dernier appelé: "; font-weight: normal; font-size: 10px; opacity: 0.8; }}
+            .rang span::before {{ content: "TOI: "; font-weight: bold; font-size: 10px; }}
+            .refus span::before {{ content: "Refus: "; font-weight: normal; font-size: 10px; }}
+            .classe2024 span::before {{ content: "Total: "; font-weight: normal; font-size: 10px; }}
+            
+            .appel2024 span, .classe2024 span, .rang span, .refus span {{
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 4px 8px;
+            }}
+            #finishtext {{
+                font-size: 16px;
+            }}
+            button {{
+                width: 100%;
+            }}
+        }}
 
         </style>
     </head>
     <body>
-    <h3>Jour {n}</h3>
-         <div class="classement">
+    <div class="main-container">
+        <h3>Jour {n}</h3>
+        
+        <div class="classement">
+            <div class="bloc">
+                <div class="annee">2026</div>
 
-    <div class="bloc">
-        <div class="annee">2026</div>
+                <div id="messageall">
+                    <span id="all-text">Tous les candidats de la liste</span>
+                </div>
+                <div id="waitlist_message">
+                    <span id="waitlist-text">Dernier candidat appelé aujourd'hui</span>
+                </div>
+                <div class="appel2024">
+                    <span>{dernier_candidat}</span>
+                </div>
 
-        <div id="messageall">
-        <span id="all-text">tous les candidats</span>
-        </div>
-        <div id="waitlist_message">
-            <span id="waitlist-text">dernier candidat appelé aujourd'hui</span>
+                <div class="barre-container">
+                    <div class="barre barre-2024">
+                        <div class="remplissage"></div>
+                        <div class="mon-rang"></div>
+                        <div class="classes"></div>
+                    </div>
+                </div>
+
+                <div id="messagerang">
+                    <span id="rang-text">VOTRE RANG</span>
+                </div>
+                <div class="rang">
+                    <span>{place}</span>
+                </div>
+                
+                <div id="messagerefus">
+                    <span id="refus-text">Rang du premier refusé</span>
+                </div>
+                <div class="refus">
+                    <span>{classes}</span>
+                </div>
+
+                <div class="classe2024">
+                    <span>{population}</span>
+                </div>
+                
+                <div id="finishmess">
+                    <span id="finishtext">{finish_mess}</span>
+                </div>        
+            </div>
         </div>
 
-        <div class="appel2024">
-            <span>{dernier_candidat}</span>
+        <div class="btn-container">
+            <form action="/simulation">
+                <button>Jour suivant</button>
+            </form>
+            <form action="/voeux">
+                <button type="submit" name="voeux" value="{voeux}">Voir la décision du voeu</button>
+            </form>
         </div>
-
-        <div class="barre barre-2024">
-            <div class="remplissage"></div>
-            <div class="mon-rang"></div>
-            <div class="classes"></div>
-        </div>
-        <div id="messagerefus">
-        <span id="refus-text">rang du premier candidat refusé</span>
-        </div>
-
-        <div class="refus">
-            <span>{classes}</span>
-        </div>
-
-        <div class="classe2024">
-            <span>{population}</span>
-        </div>
-        <div id="messagerang">
-        <span id="rang-text">TOI</span>
-        </div>
-
-        <div class="rang">
-            <span>{place}</span>
-        </div>
-<div id="finishmess">
-<span id="finishtext">{finish_mess}</span>
-</div>        
-</div>
-</div>
-
-<form action="/simulation">
-    <button>Jour suivant</button>
-</form>
-<form action="/voeux">
-    <button type="submit" name="voeux" value="{voeux}">Voir la décision du voeu</button>
-</form>
+    </div>
     </body>
 </html>
 """
-
 
 @app.get("/voeux")
 def voeux_decision(voeux):
@@ -1466,119 +1411,95 @@ def voeux_accepte(request:Request):
         <style>
             body{{
                 background-color: rgb(255, 166, 0);
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                text-align: center;
+            }}
+            .content-wrapper {{
+                max-width: 800px;
+                margin: auto;
             }}
             p{{
-                text-align: center;
-                margin-top: 100px;
-                margin-bottom: 100px;
-                font-size: 25px;
-                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            }}
-            #text1{{
-                font-size: 70px;
-                margin-left: 160px;
-                font-family:Arial, Helvetica, sans-serif;
-                text-align: center;
+                margin: 40px 0;
+                font-size: 22px;
+                line-height: 1.5;
                 color: rgb(15, 25, 60);
+                font-weight: bold;
             }}
-            #text2{{
-                font-size: 70px;
-                margin-left: 330px;
-                font-family:Arial, Helvetica, sans-serif;
-                text-align: center;
+            h1 {{
+                font-size: 50px;
+                font-family: Arial, sans-serif;
                 color: rgb(15, 25, 60);
+                margin-top: 30px;
+                line-height: 1.2;
+            }}
+            .container{{
+                display:flex;
+                justify-content: center;
+                gap: 40px;
+                flex-wrap: wrap;
+                margin-top: 30px;
             }}
             button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
-    }}
-            #boutonun{{
-        margin-left:300px;
-        width: 200px;
+                padding:15px 30px;
+                font-size: 18px;
+                font-weight: bold;
+                cursor: pointer;
+                border-radius:10px;
+                border: none;
+                transition: 0.2s;
+                min-width: 200px;
             }}
-    #boutondeux{{
-        margin-right:300px;
-        width: 270px;
-    }}
-    .container{{
-        display:flex;
-        gap: 100px;
-    }}
-    .formation1{{
-        flex:1;
-        background-color:green;
-        color:white;
-        border-color:black;
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .formation2{{
-        flex:1;
-        background-color:red;
-        color:white;
-        border-color:black;
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .retour{{
-        background-color:black;
-        color:white;
-        border-color:red;
-        height:40px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    @media (max-width: 900px) {{
-        #text1, #text2 {{
-            font-size: 32px !important;
-            margin-left: 0 !important;
-            display: block !important;
-            text-align: center !important;
-        }}
-        p {{
-            font-size: 18px !important;
-            margin-top: 30px !important;
-            margin-bottom: 30px !important;
-            padding: 0 15px;
-        }}
-        .container {{
-            flex-direction: column !important;
-            gap: 15px !important;
-            padding: 0 15px;
-        }}
-        #boutonun, #boutondeux {{
-            margin: 0 !important;
-            width: 100% !important;
-        }}
-    }}
+            button:hover{{
+                transform: scale(1.05);
+            }}
+            .formation1{{
+                background-color:green;
+                color:white;
+            }}
+            .formation2{{
+                background-color:red;
+                color:white;
+            }}
+            .retour{{
+                background-color:black;
+                color:white;
+                padding: 10px 20px;
+                font-size: 14px;
+                min-width: auto;
+                margin-bottom: 20px;
+            }}
+            @media (max-width: 600px) {{
+                h1 {{ font-size: 32px; }}
+                p {{ font-size: 18px; }}
+                .container {{ flex-direction: column; gap: 15px; align-items: center; }}
+                button {{ width: 100%; }}
+            }}
         </style>
     </head>
     <body>
-    <form action="/simulation">
-        <button type="submit" class="retour">Retour à la simulation</button>
+    <div class="content-wrapper">
+        <form action="/simulation">
+            <button type="submit" class="retour">← Retour à la simulation</button>
         </form>
-        <div style="text-align:center;">
-            <span id="text1"><u>TU AS UNE PROPOSITION</u></span>
-            <span id="text2"><u>D'ADMISSION !</u></span>
-        </div>
+        <h1><u>TU AS UNE PROPOSITION D'ADMISSION !</u></h1>
 
         <p>Tu as reçu une proposition d'admission au jour {x} de la phase principale d'une formation {etude} du top {prepa}.</p>
-    <form action="/choix/accepté">
+        
         <div class="container">
-        <button id="boutonun" class="formation1"type="submit">ACCEPTER</button>
-    </form>
-    <form action="/choix/refusé">
-        <button class="formation2" id="boutondeux" type="submit">REFUSER</button>
+            <form action="/choix/accepté">
+                <button class="formation1" type="submit">ACCEPTER</button>
+            </form>
+            <form action="/choix/refusé">
+                <button class="formation2" type="submit">REFUSER</button>
+            </form>
         </div>
-    </form>
+    </div>
     </body>
 </html>
 """
-@app.get("/choix/accepté",response_class=HTMLResponse)
+@app.get("/choix/accepté",call_back=None,response_class=HTMLResponse)
 def choix_accepté(request:Request):
     etude=request.session.get("etude")
     url=request.session.get("url")
@@ -1590,95 +1511,78 @@ def choix_accepté(request:Request):
         <style>
             body{{
                 background-color: green;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                text-align: center;
+                color: white;
+            }}
+            .content-wrapper {{
+                max-width: 800px;
+                margin: auto;
+            }}
+            h1{{
+                font-size: 50px;
+                color: rgb(15, 25, 60);
+                margin-top: 40px;
             }}
             p{{
-                text-align: center;
-                margin-top: 100px;
-                margin-bottom: 100px;
-                font-size: 25px;
-                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                margin: 30px 0;
+                font-size: 22px;
+                line-height: 1.6;
             }}
-            #text1{{
-                font-size: 70px;
-                margin-left: 350px;
-                font-family:Arial, Helvetica, sans-serif;
-                text-align: center;
-                color: rgb(15, 25, 60);
+            a {{
+                color: #ffffc0;
+                font-weight: bold;
+                text-decoration: underline;
             }}
-            button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
-    }}
-            #boutonun{{
-        margin-left:300px;
-        width: 200px;
+            .container{{
+                display:flex;
+                justify-content: center;
+                gap: 30px;
+                flex-wrap: wrap;
+                margin-top: 40px;
             }}
-    #boutondeux{{
-        margin-right:300px;
-        width: 270px;
-    }}
-    .container{{
-        display:flex;
-        gap: 100px;
-    }}
-    .formation1{{
-        flex:1;
-        background-color:black;
-        color:rgb(116, 251, 116);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .formation2{{
-        flex:1;
-        background-color:black;
-        color:rgb(116, 251, 116);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    @media (max-width: 900px) {{
-        #text1 {{
-            font-size: 34px !important;
-            margin-left: 0 !important;
-            display: block !important;
-            text-align: center !important;
-        }}
-        p {{
-            font-size: 18px !important;
-            margin-top: 30px !important;
-            margin-bottom: 30px !important;
-            padding: 0 15px;
-        }}
-        .container {{
-            flex-direction: column !important;
-            gap: 15px !important;
-            padding: 0 15px;
-        }}
-        #boutonun, #boutondeux {{
-            margin: 0 !important;
-            width: 100% !important;
-        }}
-    }}
+            .formation1, .formation2{{
+                background-color:black;
+                color:rgb(116, 251, 116);
+                border: 2px solid rgb(255,255,192);
+                padding: 15px 25px;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius:10px;
+                cursor: pointer;
+                transition: 0.2s;
+                min-width: 220px;
+            }}
+            .formation1:hover, .formation2:hover {{
+                transform: scale(1.05);
+                background-color: rgb(20,20,20);
+            }}
+            @media (max-width: 600px) {{
+                h1 {{ font-size: 34px; }}
+                p {{ font-size: 18px; }}
+                .container {{ flex-direction: column; gap: 15px; align-items: center; }}
+                .formation1, .formation2 {{ width: 100%; }}
+            }}
         </style>
     </head>
     <body>
-        <span id="text1"><u>VOEU ACCEPTÉ !</u></span>
+    <div class="content-wrapper">
+        <h1><u>VOEU ACCEPTÉ !</u></h1>
 
-        <p>Maintenant, va voir précisément dans quel établissement de {etude} tu pourrais être prit selon ce que t'as visé (top {prepa}), t'as juste à cliquer <a href="{url}">ICI</a> !</p>
-        <p>Tu peux aussi retourner là où tu veux à l'aide des boutons ci-dessous</p>
-    <form action="/choix">
-    <div class="container">
-        <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
-    </form>
-    <form action="/formulaire">
-        <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+        <p>Maintenant, va voir précisément dans quel établissement de {etude} tu pourrais être pris selon ce que tu as visé (top {prepa}), tu as juste à cliquer <a href="{url}" target="_blank">ICI</a> !</p>
+        <p>Tu peux aussi retourner là où tu veux à l'aide des boutons ci-dessous :</p>
+        
+        <div class="container">
+            <form action="/choix">
+                <button class="formation1" type="submit">Retour choix formation</button>
+            </form>
+            <form action="/formulaire">
+                <button class="formation2" name="etude" value="{etude}" type="submit">Retour formulaire de notes</button>
+            </form>
         </div>
-    </form>
+    </div>
     </body>
 </html>
 """
@@ -1693,95 +1597,72 @@ def choix_refusé(request:Request):
         <style>
             body{{
                 background-color: rgb(119, 80, 212);
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                text-align: center;
+                color: white;
+            }}
+            .content-wrapper {{
+                max-width: 800px;
+                margin: auto;
+            }}
+            h1{{
+                font-size: 50px;
+                color: rgb(15, 25, 60);
+                margin-top: 40px;
             }}
             p{{
-                text-align: center;
-                margin-top: 100px;
-                margin-bottom: 100px;
-                font-size: 25px;
-                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                margin: 30px 0;
+                font-size: 22px;
+                line-height: 1.6;
             }}
-            #text1{{
-                font-size: 70px;
-                margin-left: 350px;
-                font-family:Arial, Helvetica, sans-serif;
-                text-align: center;
-                color: rgb(15, 25, 60);
+            .container{{
+                display:flex;
+                justify-content: center;
+                gap: 30px;
+                flex-wrap: wrap;
+                margin-top: 40px;
             }}
-            button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
-    }}
-            #boutonun{{
-        margin-left:300px;
-        width: 200px;
+            .formation1, .formation2{{
+                background-color:black;
+                color:rgb(200, 180, 255);
+                border: 2px solid rgb(255,255,192);
+                padding: 15px 25px;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius:10px;
+                cursor: pointer;
+                transition: 0.2s;
+                min-width: 220px;
             }}
-    #boutondeux{{
-        margin-right:300px;
-        width: 270px;
-    }}
-    .container{{
-        display:flex;
-        gap: 100px;
-    }}
-    .formation1{{
-        flex:1;
-        background-color:black;
-        color:rgb(119, 80, 212);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .formation2{{
-        flex:1;
-        background-color:black;
-        color:rgb(119, 80, 212);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    @media (max-width: 900px) {{
-        #text1 {{
-            font-size: 34px !important;
-            margin-left: 0 !important;
-            display: block !important;
-            text-align: center !important;
-        }}
-        p {{
-            font-size: 18px !important;
-            margin-top: 30px !important;
-            margin-bottom: 30px !important;
-            padding: 0 15px;
-        }}
-        .container {{
-            flex-direction: column !important;
-            gap: 15px !important;
-            padding: 0 15px;
-        }}
-        #boutonun, #boutondeux {{
-            margin: 0 !important;
-            width: 100% !important;
-        }}
-    }}
+            .formation1:hover, .formation2:hover {{
+                transform: scale(1.05);
+            }}
+            @media (max-width: 600px) {{
+                h1 {{ font-size: 34px; }}
+                p {{ font-size: 18px; }}
+                .container {{ flex-direction: column; gap: 15px; align-items: center; }}
+                .formation1, .formation2 {{ width: 100%; }}
+            }}
         </style>
     </head>
     <body>
-        <span id="text1"><u>VOEU REFUSÉ !</u></span>
+    <div class="content-wrapper">
+        <h1><u>VOEU REFUSÉ !</u></h1>
 
         <p>Tu penses pouvoir faire mieux que cette formation ({etude}) du top {prepa} ?</p>
         <p>Tu peux recommencer et changer le top {etude} que tu vises ou totalement recommencer à l'aide des boutons ci-dessous.</p>
-    <form action="/choix">
-    <div class="container">
-        <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
-    </form>
-    <form action="/formulaire">
-        <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+        
+        <div class="container">
+            <form action="/choix">
+                <button class="formation1" type="submit">Retour choix formation</button>
+            </form>
+            <form action="/formulaire">
+                <button class="formation2" name="etude" value="{etude}" type="submit">Retour formulaire de notes</button>
+            </form>
         </div>
-    </form>
+    </div>
     </body>
 </html>
 """
@@ -1796,84 +1677,62 @@ def attente(request:Request):
         <style>
             body{{
                 background-color: #3554a5;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                text-align: center;
+                color: white;
+            }}
+            .content-wrapper {{
+                max-width: 800px;
+                margin: auto;
+            }}
+            h1{{
+                font-size: 50px;
+                color: rgb(15, 25, 60);
+                margin-top: 40px;
+                line-height: 1.2;
             }}
             p{{
-                text-align: center;
-                margin-top: 100px;
-                margin-bottom: 100px;
-                font-size: 25px;
-                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                margin: 40px 0;
+                font-size: 24px;
+                line-height: 1.6;
             }}
-            #text1{{
-                font-size: 70px;
-                margin-left: 350px;
-                font-family:Arial, Helvetica, sans-serif;
-                text-align: center;
-                color: rgb(15, 25, 60);
+            .retour{{
+                background-color:black;
+                color:white;
+                border: 2px solid red;
+                padding: 15px 30px;
+                font-size: 18px;
+                font-weight: bold;
+                border-radius:10px;
+                cursor: pointer;
+                transition: 0.2s;
+                margin-top: 20px;
+                width: auto;
+                display: inline-block;
             }}
-            #text2{{
-                font-size: 70px;
-                margin-left: 450px;
-                font-family:Arial, Helvetica, sans-serif;
-                text-align: center;
-                color: rgb(15, 25, 60);
+            .retour:hover {{
+                transform: scale(1.05);
             }}
-            button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
-    }}
-
-    .retour{{
-        background-color:black;
-        color:white;
-        border-color:red;
-        height:60px;
-        padding:10px;
-        border-radius:10px;
-        margin-left:450px;
-    }}
-    span{{
-        font-size:30px;
-    }}
-    @media (max-width: 900px) {{
-        #text1, #text2 {{
-            font-size: 34px !important;
-            margin-left: 0 !important;
-            display: block !important;
-            text-align: center !important;
-        }}
-        p {{
-            font-size: 18px !important;
-            margin-top: 30px !important;
-            margin-bottom: 30px !important;
-            padding: 0 15px;
-        }}
-        .retour {{
-            margin-left: auto !important;
-            margin-right: auto !important;
-            display: block !important;
-            width: 90% !important;
-            height: auto !important;
-        }}
-        .retour span {{
-            font-size: 20px !important;
-        }}
-    }}
+            @media (max-width: 600px) {{
+                h1 {{ font-size: 34px; }}
+                p {{ font-size: 18px; }}
+                .retour {{ width: 100%; }}
+            }}
         </style>
     </head>
     <body>
-        <div style="text-align:center;">
-            <span id="text1"><u>TU ES EN LISTE</u></span>
-            <span id="text2"><u>D'ATTENTE</u></span>
-        </div>
+    <div class="content-wrapper">
+        <h1><u>TU ES EN LISTE D'ATTENTE</u></h1>
 
-        <p><u>Tu es encore en phase principale</u> (jour {n}),
-         retourne à la simulation pour voir les résultats au 40ème jour (ou moins si t'es admis avant).</p>
-    <form action="/simulation">
-        <button type="submit" class="retour"><span>Retour à la simulation</span></button>
-    </form>
+        <p><u>Tu es encore en phase principale</u> (jour {n-1}),<br>
+         retourne à la simulation pour voir les résultats au 40ème jour (ou moins si tu es admis avant).</p>
+         
+        <form action="/simulation">
+            <button type="submit" class="retour">Retour à la simulation</button>
+        </form>
+    </div>
     </body>
 </html>
 """
@@ -1892,110 +1751,86 @@ def refus(request:Request):
         <style>
             body{{
                 background-color: red;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                text-align: center;
+                color: white;
+            }}
+            .content-wrapper {{
+                max-width: 800px;
+                margin: auto;
+            }}
+            h1{{
+                font-size: 50px;
+                color: rgb(15, 25, 60);
+                margin-top: 40px;
             }}
             p{{
-                text-align: center;
-                margin-top: 100px;
-                margin-bottom: 100px;
-                font-size: 25px;
-                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                margin: 40px 0;
+                font-size: 22px;
+                line-height: 1.6;
             }}
-            #text1{{
-                font-size: 70px;
-                margin-left: 350px;
-                font-family:Arial, Helvetica, sans-serif;
-                text-align: center;
-                color: rgb(15, 25, 60);
+            .container{{
+                display:flex;
+                justify-content: center;
+                gap: 30px;
+                flex-wrap: wrap;
+                margin-top: 40px;
             }}
-            button{{
-        transition:all 1s ease;
-    }}
-    button:hover{{
-        border:10px yellow;
-    }}
-            #boutonun{{
-        margin-left:300px;
-        width: 200px;
+            .formation1, .formation2{{
+                background-color:black;
+                color:rgb(255,255,192);
+                border: 2px solid rgb(255,255,192);
+                padding: 15px 25px;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius:10px;
+                cursor: pointer;
+                transition: 0.2s;
+                min-width: 220px;
             }}
-    #boutondeux{{
-        margin-right:300px;
-        width: 270px;
-    }}
-    .container{{
-        display:flex;
-        gap: 100px;
-    }}
-    .formation1{{
-        flex:1;
-        background-color:black;
-        color:rgb(255,255,192);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .formation2{{
-        flex:1;
-        background-color:black;
-        color:rgb(255,255,192);
-        border-color:rgb(255,255,192);
-        height:70px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    .retour{{
-        background-color:black;
-        color:white;
-        border-color:red;
-        height:40px;
-        padding:10px;
-        border-radius:10px;
-    }}
-    @media (max-width: 900px) {{
-        #text1 {{
-            font-size: 34px !important;
-            margin-left: 0 !important;
-            display: block !important;
-            text-align: center !important;
-        }}
-        p {{
-            font-size: 18px !important;
-            margin-top: 30px !important;
-            margin-bottom: 30px !important;
-            padding: 0 15px;
-        }}
-        .container {{
-            flex-direction: column !important;
-            gap: 15px !important;
-            padding: 0 15px;
-        }}
-        #boutonun, #boutondeux {{
-            margin: 0 !important;
-            width: 100% !important;
-        }}
-        .retour {{
-            margin-left: 15px !important;
-        }}
-    }}
+            .formation1:hover, .formation2:hover {{
+                transform: scale(1.05);
+            }}
+            .retour{{
+                background-color:black;
+                color:white;
+                border: 1px solid white;
+                padding: 10px 20px;
+                font-size: 14px;
+                border-radius: 8px;
+                cursor: pointer;
+                margin-bottom: 20px;
+            }}
+            @media (max-width: 600px) {{
+                h1 {{ font-size: 34px; }}
+                p {{ font-size: 18px; }}
+                .container {{ flex-direction: column; gap: 15px; align-items: center; }}
+                .formation1, .formation2 {{ width: 100%; }}
+            }}
         </style>
     </head>
     <body>
-    <form action="/simulation">
-        <button type="submit" class="retour">Retour à la simulation</button>
+    <div class="content-wrapper">
+        <form action="/simulation">
+            <button type="submit" class="retour">← Retour à la simulation</button>
         </form>
-        <span id="text1"><u>TU ES REFUSÉ</u></span>
+        <h1><u>TU ES REFUSÉ</u></h1>
 
-        <p>Tu as été placé trop bas 
-        ({place}ème sur {population}, le dernier candidat classé étant {classes}ème, et le dernier appelé {dernier_candidat}ème),
-          tu n'as donc jamais reçu de proposition d'admission.</p>
-    <form action="/choix">
-    <div class="container">
-        <button id="boutonun" class="formation1"type="submit">Retour vers choix formation</button>
-    </form>
-    <form action="/formulaire">
-        <button class="formation2" id="boutondeux" name="etude" value="{etude}" type="submit">Retour vers formulaire de notes</button>
+        <p>Tu as été placé trop bas <br>
+        ({place}ème sur {population}, le premier candidat refusé étant {classes}ème, et le dernier appelé {dernier_candidat}ème),<br>
+          tu n'as donc pas reçu de proposition d'admission.</p>
+          
+        <div class="container">
+            <form action="/choix">
+                <button class="formation1" type="submit">Retour choix formation</button>
+            </form>
+            <form action="/formulaire">
+                <button class="formation2" name="etude" value="{etude}" type="submit">Retour formulaire de notes</button>
+            </form>
         </div>
-    </form>
+    </div>
     </body>
 </html>
 """

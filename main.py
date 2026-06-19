@@ -1104,260 +1104,278 @@ def simulation(request:Request):
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-        body{{
-            background-color:rgb(15, 25, 60);
-            margin: 0;
-            padding: 10px;
-            font-family: Arial, sans-serif;
-            box-sizing: border-box;
-        }}
-        h3{{
-            font-family: fantasy;
-            text-align: center;
-            font-size: 40px;
-            font-style: italic;
-            color: rgb(180, 190, 210);
-            margin: 15px 0;
-        }}
-        .classement{{
-            margin-left:600px;
-            display:flex;
-            gap:120px;
-            align-items:flex-start;
-        }}
-        .bloc{{
-            position:relative;
-        }}
-        .annee{{
-            width:max-content;
-            margin:auto;
-            margin-bottom:10px;
-            padding:3px 10px;
-            border-radius:12px;
-            background:#e7ebf8;
-            font-size:13px;
-        }}
-        #messageall{{
-            position:absolute;
-            left:-220px;
-            bottom:-20px;
-        }}
-        #messageall span{{
-            display:inline-block;
-            padding:4px 10px;
-            border-radius:4px;
-        }}
-        #all-text{{
-            color:#e8edff;
-            background:#3554a5;
-        }}
-        .barre{{
-            width:50px;
-            height:320px;
-            border:1px solid #cfd4e5;
-        }}
-        .barre-2023{{
-            background:#ececec;
-        }}
-        .barre-2024{{
-            position:relative;
-            background:white;
-        }}
-        .remplissage{{
-            position:absolute;
-            top:0;
-            left:0;
-            right:0;
-            height:{dernier_candidatpx}px;
-            background:#3554a5;
-        }}
-        .mon-rang{{
-            position:absolute;
-            left:0;
-            right:0;
-            top:{place_px}px;
-            border-top:2px solid #e28d76;
-        }}
-        .classes{{
-            position:absolute;
-            left:0;
-            right:0;
-            top:{classes_pourcent}px;
-            border-top:2px solid red;
-        }}
-        .appel2023{{
-            position:absolute;
-            left:-75px;
-            top:75px;
-        }}
-        .appel2024{{
-            position:absolute;
-            left:-60px;
-            top:{dernier_candidatpx}px;
-        }}
-        #waitlist_message{{
-            position:absolute;
-            left:-335px;
-            top:{dernier_candidatpx}px;
-        }}
-        #waitlist_message span{{
-            display:inline-block;
-            padding:4px 10px;
-            border-radius:4px;
-        }}
-        #waitlist-text{{
-            color:#e8edff;
-            background:#3554a5;
-        }}
-        .classe2024{{
-            position:absolute;
-            left:-60px;
-            bottom:-20px;
-        }}
-        .rang{{
-            position:absolute;
-            left:55px;
-            top:{place_px}px;
-        }}
-        #messagerang{{
-            position: absolute;
-            left:120px;
-            top:{place_px}px;
-        }}
-        #messagerang span{{
-            display:inline-block;
-            padding:4px 10px;
-            border-radius:4px;
-        }}
-        #rang-text{{
-            background-color: #c96d56;
-            color: #ffe8e1;
-        }}
-        .refus{{
-            position:absolute;
-            left:-60px;
-            top:{classes_pourcent}px;
-        }}
-        #messagerefus{{
-            position:absolute;
-            left:-310px;
-            top:{classes_pourcent}px;
-        }}
-        #messagerefus span{{
-            display:inline-block;
-            padding:4px 10px;
-            border-radius:4px;
-        }}
-        #refus-text{{
-            color:red;
-            background:white;
-        }}
-        .appel2023 span,
-        .appel2024 span,
-        .classe2024 span,
-        .rang span,
-        .refus span{{
-            display:inline-block;
-            padding:4px 10px;
-            border-radius:4px;
-            font-weight:bold;
-        }}
-        .appel2023 span{{
-            background:#efefef;
-        }}
-        .appel2024 span,
-        .classe2024 span{{
-            background:#e8edff;
-            color:#3554a5;
-        }}
-        .rang span{{
-            background:#ffe8e1;
-            color:#c96d56;
-        }}
-        .refus span{{
-            background:red;
-            color:white;
-        }}
-        #finishmess{{
-            position:absolute;
-            bottom:-150px;
-            left:-250px;
-            width:600px;
-        }}
-        #finishmess span{{
-            display:inline-block;
-            padding:4px 10px;
-            border-radius:4px;
-        }}
-        #finishtext{{
-            color:#e8edff;
-            background:rgb(15,25,60);
-            font-size:30px;
-            font-family:fantasy;
-            text-align:center;
-        }}
-        .style{{
-            inline-flex:1;
-            background-color:black;
-            width:200px;
-            height:100px;
-            cursor:pointer;
-            padding:5px;
-            transition:all 0.3s ease;
-        }}
-        .style:hover{{
-            background-color:lightblue;
-            border-color:black;
-            border-radius:50px;
+    body {{
+        background-color: rgb(15, 25, 60);
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }}
+
+    h3 {{
+        font-family: fantasy;
+        text-align: center;
+        font-size: 40px;
+        font-style: italic;
+        color: rgb(180, 190, 210);
+        margin-bottom: 40px;
+    }}
+
+    .simulation-container {{
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }}
+
+    .classement {{
+        display: flex;
+        gap: 120px;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+    }}
+
+    .bloc {{
+        position: relative;
+        margin-bottom: 120px;
+    }}
+
+    .annee {{
+        width: max-content;
+        margin: auto;
+        margin-bottom: 10px;
+        padding: 3px 10px;
+        border-radius: 12px;
+        background: #e7ebf8;
+        font-size: 13px;
+        color: black;
+    }}
+
+    #messageall {{
+        position: absolute;
+        left: -220px;
+        bottom: -20px;
+    }}
+    #messageall span {{
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+    }}
+    #all-text {{
+        color: #e8edff;
+        background: #3554a5;
+    }}
+
+    .barre {{
+        width: 50px;
+        height: 320px;
+        border: 1px solid #cfd4e5;
+    }}
+
+    .barre-2024 {{
+        position: relative;
+        background: white;
+    }}
+
+    .remplissage {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: {dernier_candidatpx}px;
+        background: #3554a5;
+    }}
+
+    .mon-rang {{
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: {place_px}px;
+        border-top: 2px solid #e28d76;
+    }}
+
+    .classes {{
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: {classes_pourcent}px;
+        border-top: 2px solid red;
+    }}
+
+    .appel2024 {{
+        position: absolute;
+        left: -60px;
+        top: {dernier_candidatpx}px;
+    }}
+
+    #waitlist_message {{
+        position: absolute;
+        left: -335px;
+        top: {dernier_candidatpx}px;
+    }}
+    #waitlist_message span {{
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+    }}
+
+    #waitlist-text {{
+        color: #e8edff;
+        background: #3554a5;
+    }}
+
+    .classe2024 {{
+        position: absolute;
+        left: -60px;
+        bottom: -20px;
+    }}
+
+    .rang {{
+        position: absolute;
+        left: 55px;
+        top: {place_px}px;
+    }}
+
+    #messagerang {{
+        position: absolute;
+        left: 120px;
+        top: {place_px}px;
+    }}
+
+    #messagerang span {{
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+    }}
+
+    #rang-text {{
+        background-color: #c96d56;
+        color: #ffe8e1;
+    }}
+
+    .refus {{
+        position: absolute;
+        left: -60px;
+        top: {classes_pourcent}px;
+    }}
+
+    #messagerefus {{
+        position: absolute;
+        left: -310px;
+        top: {classes_pourcent}px;
+    }}
+    #messagerefus span {{
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+    }}
+    #refus-text {{
+        color: red;
+        background: white;
+    }}
+
+    .appel2024 span,
+    .classe2024 span,
+    .rang span,
+    .refus span {{
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: bold;
+    }}
+
+    .appel2024 span,
+    .classe2024 span {{
+        background: #e8edff;
+        color: #3554a5;
+    }}
+
+    .rang span {{
+        background: #ffe8e1;
+        color: #c96d56;
+    }}
+
+    .refus span {{
+        background: red;
+        color: white;
+    }}
+
+    #finishmess {{
+        position: absolute;
+        bottom: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        text-align: center;
+    }}
+    #finishmess span {{
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+    }}
+    #finishtext {{
+        color: #e8edff;
+        background: rgb(15,25,60);
+        font-size: 24px;
+        font-family: fantasy;
+    }}
+
+    .actions-container {{
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 40px;
+        width: 100%;
+    }}
+
+    .actions-container button {{
+        background-color: black;
+        color: white;
+        border: 2px solid lightblue;
+        height: 60px;
+        padding: 0 30px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }}
+
+    .actions-container button:hover {{
+        background-color: lightblue;
+        color: black;
+        transform: scale(1.05);
+    }}
+
+    @media (max-width: 900px) {{
+        .classement {{
+            gap: 20px;
+            transform: scale(0.9);
         }}
         
-        form button {{
-            background-color: #3554a5;
-            color: white;
-            border: 1px solid #cfd4e5;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            transition: 0.2s;
-        }}
-        form button:hover {{
-            background-color: #254485;
+        #waitlist_message, #messagerefus, #messageall {{
+            display: none;
         }}
 
-        @media (max-width: 900px) {{
-            h3 {{ font-size: 26px !important; }}
-            .classement {{
-                margin-left: 0 !important;
-                justify-content: center !important;
-                padding: 20px 0 !important;
-                margin-bottom: 150px !important; /* Laisse de la place pour le texte de statut absolue */
-            }}
-            /* Cache les très longues étiquettes horizontales qui font déborder l'écran du mobile */
-            #messageall, #waitlist_message, #messagerefus {{
-                display: none !important;
-            }}
-            #finishmess {{
-                position: absolute !important;
-                bottom: -120px !important;
-                left: 50% !important;
-                transform: translateX(-50%) !important;
-                width: 90vw !important;
-                max-width: 340px !important;
-            }}
-            #finishtext {{
-                font-size: 18px !important;
-            }}
-            form {{
-                display: flex !important;
-                justify-content: center !important;
-                margin: 15px auto !important;
-                width: 100% !important;
-                max-width: 280px !important;
-            }}
+        #finishmess {{
+            width: 90%;
+            position: relative;
+            bottom: 0;
+            margin-top: 40px;
         }}
-        </style>
+
+        .actions-container {{
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }}
+
+        .actions-container button {{
+            width: 80%;
+        }}
+    }}
+</style>
     </head>
     <body>
     <h3>Jour {n}</h3>

@@ -926,11 +926,9 @@ def save_k(request:Request):
 
 @app.get("/simulation", response_class=HTMLResponse)
 def simulation(request:Request):
-
     n=request.session.get("n")
     admis=request.session.get("admis")
     etude=request.session.get("etude")
-
 
     if n==1:
         prepa=["prépa scientifique","prépa littéraire","prépa ECG"]
@@ -1013,8 +1011,6 @@ def simulation(request:Request):
     dynamique=random.randint(evolution-round(evolution/2),evolution+round(evolution/2))
     if 40>=n>1:
         dernier_candidat+=dynamique
-    else:
-        pass
 
     if 1<=n<40:
         finish_mess="<u>Phase principale active</u>, passe au jour suivant et vois la progression des places !"
@@ -1035,11 +1031,8 @@ def simulation(request:Request):
     request.session["jour"]=jour
     request.session["n"]=n+1
 
-
-        
     dernier_candidatpx=320*dernier_candidat/population
     place_px=320*place/population
-
 
     if place<=dernier_candidat:
         voeux="tu as une proposition d'admission !"
@@ -1055,22 +1048,12 @@ def simulation(request:Request):
             x=n-k
             request.session["k"]=int(k+1)
             request.session["x"]=x
-        
-
-
-        
-        
     elif dernier_candidat<place<classes:
         voeux="Voeu en attente"
         if n>=40:
             voeux="Voeu refusé"
-        else:
-            pass
     else:
         voeux="Voeu refusé"
-
-
-
 
     return f"""
     <html>
@@ -1080,15 +1063,6 @@ def simulation(request:Request):
 
         body{{
             background-color:rgb(15, 25, 60);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            box-sizing: border-box;
         }}
 
         h3{{
@@ -1097,16 +1071,14 @@ def simulation(request:Request):
             font-size: 40px;
             font-style: italic;
             color: rgb(180, 190, 210);
-            margin: 20px 0;
         }}
 
+        /* --- STYLE ORDI INTACT --- */
         .classement{{
-            margin-left: 600px;
-            display: flex;
-            gap: 120px;
-            align-items: flex-start;
-            position: relative;
-            height: 380px;
+            margin-left:600px;
+            display:flex;
+            gap:120px;
+            align-items:flex-start;
         }}
 
         .bloc{{
@@ -1121,7 +1093,7 @@ def simulation(request:Request):
             border-radius:12px;
             background:#e7ebf8;
             font-size:13px;
-            color: black;
+            color:black;
         }}
 
         #messageall{{
@@ -1294,84 +1266,71 @@ def simulation(request:Request):
         }}
 
         .btn-container {{
-            margin-top: 180px;
+            margin-left: 600px;
             display: flex;
             gap: 20px;
-            justify-content: center;
-            width: 100%;
-            max-width: 500px;
-        }}
-
-        .btn-container form {{
-            flex: 1;
+            margin-top: 200px;
         }}
 
         button {{
-            width: 100%;
-            padding: 12px 20px;
+            padding: 10px 20px;
             background-color: black;
             color: white;
             border: 1px solid lightblue;
             border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: bold;
         }}
         button:hover {{
             background-color: lightblue;
             color: black;
         }}
 
-        /* Gestion de l'affichage alterné des textes */
-        .txt-mob {{ display: none; }}
-        .txt-desk {{ display: inline; }}
-
+        /* --- CORRECTION MOBILE EXCLUSIVE --- */
         @media (max-width: 900px) {{
-            .txt-desk {{ display: none !important; }}
-            .txt-mob {{ display: inline !important; }}
-
             .classement {{
-                margin-left: 0 !important;
-                justify-content: center;
-                width: 100%;
-                gap: 0px !important;
+                margin-left: 80px !important; /* Recentrage global pour laisser la place aux chiffres */
+            }}
+            
+            /* On bascule tous les gros textes descriptifs à DROITE de la barre */
+            #waitlist_message {{ left: 70px !important; }}
+            #messagerefus {{ left: 70px !important; }}
+            #messageall {{ left: 70px !important; bottom: -20px !important; }}
+            #messagerang {{ left: 70px !important; }}
+            
+            /* On diminue un peu la taille du texte pour que ça tienne sur un petit écran sans aller à la ligne */
+            #waitlist_message span, #messagerefus span, #messageall span, #messagerang span {{
+                font-size: 12px !important;
+                padding: 4px !important;
+                white-space: nowrap !important;
             }}
 
-            /* Alignement propre à droite de la jauge sur Mobile */
-            #messageall {{ left: 65px !important; bottom: -20px !important; }}
-            #waitlist_message {{ left: 65px !important; top: {dernier_candidatpx}px !important; }}
-            #messagerefus {{ left: 65px !important; top: {classes_pourcent}px !important; }}
-            #messagerang {{ left: 115px !important; top: {place_px}px !important; }}
-
-            /* Ajustement des badges de chiffres */
-            .appel2024 {{ left: -50px !important; }}
-            .refus {{ left: -50px !important; }}
-            .classe2024 {{ left: -50px !important; }}
-            .rang {{ left: 55px !important; }}
-
-            #messageall span, #waitlist_message span, #messagerefus span, #messagerang span,
-            .appel2024 span, .classe2024 span, .rang span, .refus span {{
-                font-size: 11px !important;
-                padding: 3px 6px !important;
-                white-space: nowrap;
-            }}
-
+            /* Le message de fin est recentré en bas */
             #finishmess {{
-                position: relative !important;
-                bottom: 0 !important;
-                left: 0 !important;
-                width: 100% !important;
-                margin-top: 40px;
+                left: -60px !important;
+                width: 300px !important;
+                bottom: -120px !important;
             }}
-
             #finishtext {{
-                font-size: 18px !important;
+                font-size: 16px !important;
             }}
 
+            /* Les boutons s'empilent joliment sous la jauge */
             .btn-container {{
-                margin-top: 30px !important;
-                flex-direction: column;
-                gap: 10px;
+                margin-left: 0 !important;
+                justify-content: center !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                margin-top: 150px !important;
+            }}
+            .btn-container form {{
+                width: 80% !important;
+                display: flex;
+                justify-content: center;
+            }}
+            button {{
+                width: 100% !important;
+                margin-bottom: 10px !important;
             }}
         }}
 
@@ -1385,16 +1344,10 @@ def simulation(request:Request):
         <div class="annee">2026</div>
 
         <div id="messageall">
-        <span id="all-text">
-            <span class="txt-desk">tous les candidats</span>
-            <span class="txt-mob">Total candidats</span>
-        </span>
+            <span id="all-text">tous les candidats</span>
         </div>
         <div id="waitlist_message">
-            <span id="waitlist-text">
-                <span class="txt-desk">dernier candidat appelé aujourd'hui</span>
-                <span class="txt-mob">Dernier appelé</span>
-            </span>
+            <span id="waitlist-text">dernier candidat appelé aujourd'hui</span>
         </div>
 
         <div class="appel2024">
@@ -1406,11 +1359,9 @@ def simulation(request:Request):
             <div class="mon-rang"></div>
             <div class="classes"></div>
         </div>
+        
         <div id="messagerefus">
-        <span id="refus-text">
-            <span class="txt-desk">rang du premier candidat refusé</span>
-            <span class="txt-mob">1er refusé</span>
-        </span>
+            <span id="refus-text">rang du premier candidat refusé</span>
         </div>
 
         <div class="refus">
@@ -1420,13 +1371,15 @@ def simulation(request:Request):
         <div class="classe2024">
             <span>{population}</span>
         </div>
+        
         <div id="messagerang">
-        <span id="rang-text">TOI</span>
+            <span id="rang-text">TOI</span>
         </div>
 
         <div class="rang">
             <span>{place}</span>
         </div>
+        
         <div id="finishmess">
             <span id="finishtext">{finish_mess}</span>
         </div>        
@@ -1434,12 +1387,12 @@ def simulation(request:Request):
     </div>
 
     <div class="btn-container">
-    <form action="/simulation">
-        <button type="submit">Jour suivant</button>
-    </form>
-    <form action="/voeux">
-        <button type="submit" name="voeux" value="{voeux}">Voir la décision du voeu</button>
-    </form>
+        <form action="/simulation">
+            <button type="submit">Jour suivant</button>
+        </form>
+        <form action="/voeux">
+            <button type="submit" name="voeux" value="{voeux}">Voir la décision du voeu</button>
+        </form>
     </div>
     </body>
 </html>

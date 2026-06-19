@@ -25,145 +25,173 @@ def home():
 <style>
 
 *{
+    margin:0;
+    padding:0;
     box-sizing:border-box;
-    font-family: Arial, sans-serif;
+    font-family:Arial,sans-serif;
 }
 
 body{
-    margin:0;
-    background:#f4f7fb;
-    color:#222;
+    min-height:100vh;
+    background:
+    radial-gradient(circle at top left,#2563eb 0%,transparent 35%),
+    radial-gradient(circle at bottom right,#7c3aed 0%,transparent 35%),
+    #050816;
+    color:white;
+    overflow-x:hidden;
 }
 
 header{
-    background:#1e3a8a;
-    color:white;
-    padding:25px;
     text-align:center;
+    padding:30px;
 }
 
 header h1{
-    font-size:45px;
-    margin:0;
+    font-size:60px;
+    font-weight:900;
+    letter-spacing:2px;
+    background:linear-gradient(90deg,#60a5fa,#a78bfa);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 header p{
+    margin-top:10px;
+    color:#cbd5e1;
     font-size:18px;
 }
 
 .hero{
-
     text-align:center;
-    padding:60px 20px;
-
+    padding:80px 20px;
+    max-width:1000px;
+    margin:auto;
 }
 
 .hero h2{
-
-    font-size:35px;
-    color:#1e3a8a;
-
+    font-size:60px;
+    margin-bottom:25px;
+    line-height:1.1;
 }
 
 .hero span{
-
-    color:#2563eb;
-
+    background:linear-gradient(90deg,#60a5fa,#a78bfa);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 .hero p{
-
-    font-size:20px;
-    max-width:700px;
+    max-width:800px;
     margin:auto;
-    line-height:1.6;
-
+    font-size:22px;
+    color:#d1d5db;
+    line-height:1.7;
 }
 
 button{
-
-    margin-top:30px;
-    padding:15px 35px;
-
+    margin-top:40px;
+    padding:18px 40px;
     border:none;
-    border-radius:30px;
+    border-radius:50px;
 
-    background:#2563eb;
+    background:linear-gradient(
+    90deg,
+    #2563eb,
+    #7c3aed
+    );
+
     color:white;
-
-    font-size:18px;
+    font-size:20px;
+    font-weight:bold;
 
     cursor:pointer;
 
     transition:0.3s;
-
 }
 
 button:hover{
-
-    transform:scale(1.05);
-    background:#1e40af;
-
+    transform:translateY(-5px) scale(1.05);
+    box-shadow:
+    0 15px 35px rgba(96,165,250,0.4);
 }
 
 .cards{
-
     display:flex;
     justify-content:center;
-    gap:25px;
-
-    padding:40px 20px;
-
     flex-wrap:wrap;
-
+    gap:30px;
+    padding:50px 20px 80px;
 }
 
 .card{
+    width:320px;
 
-    background:white;
+    background:rgba(255,255,255,0.05);
 
-    width:280px;
+    backdrop-filter:blur(12px);
 
-    padding:25px;
+    border:1px solid rgba(255,255,255,0.1);
 
-    border-radius:20px;
+    border-radius:25px;
 
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    padding:30px;
 
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    border-color:#60a5fa;
 }
 
 .card h3{
-
-    color:#1e3a8a;
-
+    font-size:24px;
+    margin-bottom:15px;
 }
 
+.card p{
+    color:#cbd5e1;
+    line-height:1.6;
+}
 
-@media(max-width:600px){
+.stats{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    flex-wrap:wrap;
+    padding:20px;
+    margin-bottom:60px;
+}
+
+.stat{
+    text-align:center;
+}
+
+.stat h4{
+    font-size:40px;
+    color:#60a5fa;
+}
+
+.stat p{
+    color:#cbd5e1;
+}
+
+@media(max-width:768px){
 
     header h1{
-        font-size:35px;
+        font-size:42px;
     }
-
 
     .hero h2{
-
-        font-size:28px;
-
+        font-size:38px;
     }
-
 
     .hero p{
-
-        font-size:17px;
-
+        font-size:18px;
     }
 
-
     .card{
-
         width:90%;
-
     }
 
 }
@@ -172,100 +200,87 @@ button:hover{
 
 </head>
 
-
 <body>
-
 
 <header>
 
 <h1>PARCOURINF</h1>
 
-<p>Simulateur d'accessibilité aux formations après le bac</p>
+<p>Simulateur intelligent d'orientation post-bac</p>
 
 </header>
 
-
-
 <section class="hero">
-
 
 <h2>
 Comprendre ses chances,
-<span>anticiper son parcours</span>
+<br>
+<span>anticiper son avenir</span>
 </h2>
 
-
 <p>
-
-PARCOURINF est un simulateur permettant d'explorer
-l'évolution possible d'une candidature et de mieux
-visualiser les opportunités d'admission.
-
+Explore l'accessibilité de nombreuses formations,
+simule l'évolution d'une candidature Parcoursup
+et découvre les opportunités qui correspondent
+à ton profil.
 </p>
 
-
-
 <form action="/choix">
-
 <button>
-Commencer la simulation 🚀
+ Commencer la simulation !
 </button>
-
 </form>
-
 
 </section>
 
+<div class="stats">
 
+<div class="stat">
+<h4>IA</h4>
+<p>Analyse automatique</p>
+</div>
 
+<div class="stat">
+<h4>40</h4>
+<p>Jours simulés</p>
+</div>
+
+<div class="stat">
+<h4>∞</h4>
+<p>Scénarios possibles</p>
+</div>
+
+</div>
 
 <section class="cards">
 
-
 <div class="card">
-
-<h3>📊 Simulation</h3>
-
+<h3> Simulation dynamique</h3>
 <p>
-Visualisez une évolution jour par jour de votre candidature.
+Observe jour après jour l'évolution d'une candidature et la progression des appels.
 </p>
-
 </div>
 
-
-
 <div class="card">
-
-<h3>🤖 Intelligence artificielle</h3>
-
+<h3> Intelligence Artificielle</h3>
 <p>
-Un modèle de Machine Learning analyse différentes situations.
+Un modèle de Machine Learning estime les probabilités d'admission à partir du profil renseigné.
 </p>
-
 </div>
 
-
-
 <div class="card">
-
-<h3>🎓 Orientation</h3>
-
+<h3> Orientation</h3>
 <p>
-Un outil pour mieux comprendre les choix possibles après le bac.
+Mieux comprendre les formations, leur sélectivité et les stratégies possibles.
 </p>
-
 </div>
-
 
 </section>
 
-
 </body>
-
 </html>
-
 """
-app.get("/choix")
+@app.get("/choix")
 def form():
     return """
 <html>

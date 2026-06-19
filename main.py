@@ -1082,7 +1082,7 @@ def simulation(request:Request):
         .classement {{
             position: relative;
             margin: 0 auto;
-            width: 50px; /* Largeur de la barre */
+            width: 50px; 
             height: 320px;
         }}
 
@@ -1094,15 +1094,15 @@ def simulation(request:Request):
             position: relative;
         }}
 
-        /* --- Positionnement relatif des éléments --- */
+        /* Positionnement */
         .remplissage{{ position:absolute; top:0; width:100%; height:{dernier_candidatpx}px; background:#3554a5; }}
         .mon-rang{{ position:absolute; top:{place_px}px; width:100%; border-top:2px solid #e28d76; }}
         .classes{{ position:absolute; top:{classes_pourcent}px; width:100%; border-top:2px solid red; }}
 
-        /* --- Textes à Gauche --- */
+        /* Gestion du texte responsive */
         .label-left {{
             position: absolute;
-            right: 70px; /* Écart par rapport à la barre */
+            right: 70px;
             white-space: nowrap;
             padding: 4px 8px;
             border-radius: 4px;
@@ -1110,14 +1110,22 @@ def simulation(request:Request):
             font-size: 12px;
         }}
 
+        /* Classes de visibilité */
+        .mobile-text {{ display: none; }}
+        .desktop-text {{ display: inline; }}
+
+        @media (max-width: 900px) {{
+            .mobile-text {{ display: inline !important; }}
+            .desktop-text {{ display: none !important; }}
+        }}
+
         #waitlist_message {{ top: {dernier_candidatpx}px; background: #3554a5; color: #e8edff; }}
         #messagerefus {{ top: {classes_pourcent}px; background: white; color: red; border: 1px solid red; }}
         #messageall {{ bottom: -20px; background: #3554a5; color: #e8edff; }}
 
-        /* --- Texte à Droite (TOI) --- */
         #messagerang {{
             position: absolute;
-            left: 70px; /* Écart par rapport à la barre */
+            left: 70px;
             top: {place_px}px;
             background-color: #c96d56;
             color: #ffe8e1;
@@ -1127,7 +1135,6 @@ def simulation(request:Request):
             font-size: 12px;
         }}
 
-        /* --- Message de fin --- */
         #finishmess {{
             margin-top: 50px;
             text-align: center;
@@ -1137,7 +1144,6 @@ def simulation(request:Request):
             max-width: 600px;
         }}
 
-        /* --- Boutons --- */
         .btn-container {{
             margin-top: 30px;
             display: flex;
@@ -1168,9 +1174,20 @@ def simulation(request:Request):
                 <div class="classes"></div>
             </div>
 
-            <div id="waitlist_message" class="label-left">Dernier appelé: {dernier_candidat}</div>
-            <div id="messagerefus" class="label-left">1er refusé: {classes}</div>
-            <div id="messageall" class="label-left">Total: {population}</div>
+            <div id="waitlist_message" class="label-left">
+                <span class="desktop-text">Dernier candidat appelé aujourd'hui</span>
+                <span class="mobile-text">Dernier appelé</span>
+            </div>
+            
+            <div id="messagerefus" class="label-left">
+                <span class="desktop-text">Rang du premier candidat refusé</span>
+                <span class="mobile-text">1er refusé</span>
+            </div>
+            
+            <div id="messageall" class="label-left">
+                <span class="desktop-text">Nombre total de candidats</span>
+                <span class="mobile-text">Total</span>
+            </div>
 
             <div id="messagerang">TOI (rang {place})</div>
         </div>

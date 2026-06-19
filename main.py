@@ -1060,40 +1060,60 @@ def simulation(request:Request):
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body{{ background-color:rgb(15, 25, 60); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }}
-        h3{{ font-family: fantasy; text-align: center; font-size: 40px; font-style: italic; color: rgb(180, 190, 210); margin-bottom: 30px; }}
+        body{{
+            background-color: rgb(15, 25, 60);
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; margin: 0; padding: 20px; font-family: sans-serif;
+        }}
+        h3{{ font-family: fantasy; color: rgb(180, 190, 210); font-size: 40px; margin-bottom: 30px; }}
 
         .classement {{ position: relative; margin: 0 auto; width: 50px; height: 320px; }}
         .barre{{ width:50px; height:320px; border:1px solid #cfd4e5; background:white; position: relative; }}
 
-        /* Positionnement */
+        /* Positionnement des indicateurs */
         .remplissage{{ position:absolute; top:0; width:100%; height:{dernier_candidatpx}px; background:#3554a5; }}
         .mon-rang{{ position:absolute; top:{place_px}px; width:100%; border-top:2px solid #e28d76; }}
         .classes{{ position:absolute; top:{classes_pourcent}px; width:100%; border-top:2px solid red; }}
 
-        /* Blocs chiffres (à gauche) */
-        .num-bloc {{ position: absolute; right: 75px; background: #e8edff; color: #3554a5; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; white-space: nowrap; }}
+        /* --- STYLING DES BLOCS --- */
+        .group-left {{ position: absolute; right: 70px; display: flex; align-items: center; gap: 5px; }}
         
-        /* Étiquettes texte (à gauche, au-dessus/sous les chiffres) */
-        .label-text {{ position: absolute; right: 75px; font-size: 10px; color: #a0aec0; white-space: nowrap; }}
+        .badge-num {{ padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 13px; }}
+        .badge-txt {{ padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 500; white-space: nowrap; }}
 
-        /* Bloc TOI (à droite) */
-        .toi-container {{ position: absolute; left: 75px; top: {place_px}px; display: flex; flex-direction: column; }}
-        .toi-label {{ background: #c96d56; color: white; padding: 2px 6px; border-radius: 4px 4px 0 0; font-weight: bold; font-size: 10px; }}
-        .toi-valeur {{ background: #ffe8e1; color: #c96d56; padding: 2px 6px; border-radius: 0 0 4px 4px; font-weight: bold; font-size: 12px; }}
+        /* Couleurs Appels */
+        .appel-num {{ background: #3554a5; color: white; }}
+        .appel-txt {{ background: #e8edff; color: #3554a5; }}
 
+        /* Couleurs Refus (Rouge/Blanc) */
+        .refus-num {{ background: white; color: red; border: 1px solid red; }}
+        .refus-txt {{ background: red; color: white; }}
+
+        /* Couleurs Total */
+        .total-num {{ background: #4a5568; color: white; }}
+        .total-txt {{ background: #e2e8f0; color: #4a5568; }}
+
+        /* --- TOI (Droite) --- */
+        .group-right {{ position: absolute; left: 70px; display: flex; align-items: center; gap: 5px; top: {place_px}px; }}
+        .toi-num {{ background: #c96d56; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; }}
+        .toi-txt {{ background: #ffe8e1; color: #c96d56; padding: 4px 8px; border-radius: 6px; font-weight: bold; }}
+
+        /* Responsivité */
         .mobile-text {{ display: none; }}
         .desktop-text {{ display: inline; }}
-        @media (max-width: 900px) {{ .mobile-text {{ display: inline !important; }}; .desktop-text {{ display: none !important; }} }}
+        @media (max-width: 900px) {{ 
+            .mobile-text {{ display: inline !important; }} 
+            .desktop-text {{ display: none !important; }} 
+        }}
 
-        /* Positionnement vertical des éléments */
-        #bloc-appel {{ top: {dernier_candidatpx}px; }}
-        #bloc-refus {{ top: {classes_pourcent}px; }}
-        #bloc-total {{ bottom: -5px; }}
+        /* Positionnement vertical */
+        #row-appel {{ top: {dernier_candidatpx - 10}px; }}
+        #row-refus {{ top: {classes_pourcent - 10}px; }}
+        #row-total {{ bottom: -30px; }}
 
-        #finishmess {{ margin-top: 60px; text-align: center; color: #e8edff; font-family: fantasy; font-size: 20px; }}
+        #finishmess {{ margin-top: 80px; text-align: center; color: #e8edff; font-family: fantasy; font-size: 22px; }}
         .btn-container {{ margin-top: 30px; display: flex; gap: 15px; justify-content: center; }}
-        button {{ padding: 10px 20px; background-color: black; color: white; border: 1px solid lightblue; border-radius: 10px; cursor: pointer; }}
+        button {{ padding: 10px 20px; background: black; color: white; border: 1px solid lightblue; border-radius: 10px; cursor: pointer; }}
     </style>
     </head>
     <body>
@@ -1105,21 +1125,30 @@ def simulation(request:Request):
                 <div class="classes"></div>
             </div>
 
-            <div id="bloc-appel" class="num-bloc">{dernier_candidat}</div>
-            <div class="label-text" style="top: {dernier_candidatpx + 18}px;">
-                <span class="desktop-text">Dernier candidat appelé</span>
-                <span class="mobile-text">Dernier appelé</span>
+            <div id="row-appel" class="group-left">
+                <div class="badge-num appel-num">{dernier_candidat}</div>
+                <div class="badge-txt appel-txt">
+                    <span class="desktop-text">Dernier candidat appelé</span>
+                    <span class="mobile-text">Dernier appelé</span>
+                </div>
             </div>
 
-            <div id="bloc-refus" class="num-bloc">{classes}</div>
-            <div class="label-text" style="top: {classes_pourcent + 18}px; color: #ff8888;">1er refusé</div>
+            <div id="row-refus" class="group-left">
+                <div class="badge-num refus-num">{classes}</div>
+                <div class="badge-txt refus-txt">1er refusé</div>
+            </div>
 
-            <div id="bloc-total" class="num-bloc">{population}</div>
-            <div class="label-text" style="bottom: -22px;">Total candidats</div>
+            <div id="row-total" class="group-left">
+                <div class="badge-num total-num">{population}</div>
+                <div class="badge-txt total-txt">
+                    <span class="desktop-text">Total candidats</span>
+                    <span class="mobile-text">Total</span>
+                </div>
+            </div>
 
-            <div class="toi-container">
-                <div class="toi-label">TOI</div>
-                <div class="toi-valeur">{place}</div>
+            <div class="group-right">
+                <div class="toi-num">{place}</div>
+                <div class="toi-txt">TOI</div>
             </div>
         </div>
 

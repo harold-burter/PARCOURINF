@@ -1086,35 +1086,28 @@ def simulation(request:Request):
         .classement {{ position: relative; margin: 0 auto; width: 50px; height: 320px; }}
         .barre{{ width:50px; height:320px; border:1px solid #cfd4e5; background:white; position: relative; }}
 
-        /* Positionnement des indicateurs */
         .remplissage{{ position:absolute; top:0; width:100%; height:{dernier_candidatpx}px; background:#3554a5; }}
         .mon-rang{{ position:absolute; top:{place_px}px; width:100%; border-top:2px solid #e28d76; }}
         .classes{{ position:absolute; top:{classes_pourcent}px; width:100%; border-top:2px solid red; }}
 
-        /* --- STYLING DES BLOCS --- */
         .group-left {{ position: absolute; right: 70px; display: flex; align-items: center; gap: 5px; }}
         
         .badge-num {{ padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 13px; }}
         .badge-txt {{ padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 500; white-space: nowrap; }}
 
-        /* Couleurs Appels */
         .appel-num {{ background: #3554a5; color: white; }}
         .appel-txt {{ background: #e8edff; color: #3554a5; }}
 
-        /* Couleurs Refus (Rouge/Blanc) */
         .refus-num {{ background: white; color: red; border: 1px solid red; }}
         .refus-txt {{ background: red; color: white; }}
 
-        /* Couleurs Total */
         .total-num {{ background: #4a5568; color: white; }}
         .total-txt {{ background: #e2e8f0; color: #4a5568; }}
 
-        /* --- TOI (Droite) --- */
         .group-right {{ position: absolute; left: 70px; display: flex; align-items: center; gap: 5px; top: {place_px}px; }}
         .toi-num {{ background: #c96d56; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; }}
         .toi-txt {{ background: #ffe8e1; color: #c96d56; padding: 4px 8px; border-radius: 6px; font-weight: bold; }}
 
-        /* Responsivité */
         .mobile-text {{ display: none; }}
         .desktop-text {{ display: inline; }}
         @media (max-width: 900px) {{ 
@@ -1122,7 +1115,6 @@ def simulation(request:Request):
             .desktop-text {{ display: none !important; }} 
         }}
 
-        /* Positionnement vertical */
         #row-appel {{ top: {dernier_candidatpx - 10}px; }}
         #row-refus {{ top: {classes_pourcent - 10}px; }}
         #row-total {{ bottom: -30px; }}

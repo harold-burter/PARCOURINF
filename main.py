@@ -868,6 +868,18 @@ def predict(maths:float,physique:float,classement:int,avis:float,prepa:int,reque
         margin-left: 10px;   
         margin-top: 20px;
     }}
+    #buttonun{{
+        margin-left: 10px;
+        margin-bottom:20px;
+    }}
+    #buttondeux{{
+        margin-left: 100px;
+        margin-bottom:20px;
+    }}
+    #buttontrois{{
+        margin-left: 10px;
+        margin-bottom:20px;
+    }}
 }}
     </style>
     </head>

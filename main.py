@@ -847,6 +847,16 @@ def predict(maths:float,physique:float,classement:int,avis:float,prepa:int,reque
     #decale{{
         margin-left:50px;
     }}
+    #boutonun{{
+        margin-left:300px;
+    }}
+    #boutondeux{{
+        margin-right:400px;
+    }}
+    #boutontrois{{
+        margin-left:450px;
+        margin-right:500px;
+    }}
     @media (max-width: 900px) {{
     .resulttext {{
         display: flex;
